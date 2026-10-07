@@ -5,16 +5,20 @@ import { soundManager } from '../soundSystem';
 
 interface TitleScreenProps {
   savedGame: SavedGameState | null;
+  failedReason?: string | null;
   onResumeGame: () => void;
   onStartGame: (profile: PlayerProfile) => void;
   onResetSave: () => void;
+  onClearFailedReason?: () => void;
 }
 
 export const TitleScreen: React.FC<TitleScreenProps> = ({
   savedGame,
+  failedReason,
   onResumeGame,
   onStartGame,
-  onResetSave
+  onResetSave,
+  onClearFailedReason
 }) => {
   const [name, setName] = useState(savedGame ? savedGame.profile.name : '');
   const [className, setClassName] = useState(savedGame ? savedGame.profile.className : '');
@@ -71,6 +75,32 @@ export const TitleScreen: React.FC<TitleScreenProps> = ({
           <p className="text-center font-bold text-xs sm:text-sm text-[#5C4033] mb-4">
             The Lost Description • Fase E (Kelas X)
           </p>
+
+          {/* Mission Failed Alert Banner if restarted due to failure */}
+          {failedReason && (
+            <div className="bg-[#FFEBEE] p-3.5 rounded-xl border-2 border-[#D62828] mb-4 shadow-sm animate-in shake duration-300">
+              <div className="flex items-center justify-between mb-1">
+                <span className="font-pixel text-[10px] text-[#D62828] uppercase font-bold flex items-center gap-1.5">
+                  <span>❌</span> MISI GAGAL (MENGULANG DARI AWAL)
+                </span>
+                {onClearFailedReason && (
+                  <button
+                    type="button"
+                    onClick={onClearFailedReason}
+                    className="text-gray-400 hover:text-black font-bold text-xs cursor-pointer px-1"
+                  >
+                    ✕
+                  </button>
+                )}
+              </div>
+              <p className="text-xs font-semibold text-[#8B0000] leading-relaxed">
+                {failedReason}
+              </p>
+              <p className="text-[11px] text-[#5C4033] mt-1 font-medium">
+                Pahami petunjuk deskripsi dengan teliti sebelum menjawab kembali!
+              </p>
+            </div>
+          )}
 
           {/* Saved Game Banner if exists */}
           {savedGame && (

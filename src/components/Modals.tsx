@@ -62,14 +62,14 @@ export const MapModal: React.FC<MapModalProps> = ({
             🌐 Lab Jaringan TJKT
           </div>
 
-          {/* Mushola As-Salam */}
-          <div className="absolute bottom-3 left-[30%] w-[18%] p-1 bg-[#38B000] text-white font-bold rounded-lg border border-[#43281C] text-center text-[9px] leading-tight flex items-center justify-center">
+          {/* Mushola As-Salam (North Peaceful Zone) */}
+          <div className="absolute top-4 left-[38%] w-[24%] p-1.5 bg-[#38B000] text-white font-bold rounded-lg border border-[#43281C] text-center text-[10px] leading-tight flex items-center justify-center shadow-xs">
             🕌 Mushola As-Salam
           </div>
 
-          {/* Kantin Sekolah */}
-          <div className="absolute bottom-3 left-[50%] w-[22%] p-1 bg-[#FB8500] text-white font-bold rounded-lg border border-[#43281C] text-center text-[9px] leading-tight flex items-center justify-center">
-            ☕ Kantin (Pak Joko)
+          {/* Kantin Sekolah & Gazebo (South Food Corridor) */}
+          <div className="absolute bottom-3 left-[42%] w-[26%] p-1.5 bg-[#FB8500] text-white font-bold rounded-lg border border-[#43281C] text-center text-[10px] leading-tight flex items-center justify-center shadow-xs">
+            ☕ Kantin (Kopi Surjo & Pak Joko)
           </div>
 
           {/* Player Position Indicator on Map */}
@@ -130,8 +130,8 @@ export const QuestModal: React.FC<QuestModalProps> = ({
 }) => {
   const chapters = [
     { num: 1, title: 'Bab 1: Warm-up Chat (Obrolan Pemanasan)' },
-    { num: 2, title: 'Bab 2: Detail Benda (10 Soal Adjective Order)' },
-    { num: 3, title: 'Bab 3: Kasus Petunjuk (Problem-Based Mystery)' },
+    { num: 2, title: 'Bab 2: Detail Benda (10 Soal Acak Adjective Order)' },
+    { num: 3, title: 'Bab 3: Kasus Petunjuk (5 Kasus Masalah & Saksi)' },
     { num: 4, title: 'Bab 4: Susun Paragraf Deskriptif' },
     { num: 5, title: 'Bab 5: Proyek Akhir Mandiri' }
   ];

@@ -40,6 +40,17 @@ export interface VocabMysteryCard {
   hint: string;
 }
 
+export interface GrammarPracticeQuestion {
+  id: number;
+  promptSentence: string;
+  sentenceId: string;
+  missingWordHint: string;
+  options: string[];
+  correctAnswer: string;
+  explanation: string;
+  ruleCategory: 'It is' | 'It has / They have' | 'There is' | 'There are';
+}
+
 export interface BatangTourStop {
   id: 'waterfall' | 'kopi' | 'kitb';
   npcId: string;
@@ -104,15 +115,21 @@ export interface Chapter3Suspect {
   feedback: string;
 }
 
-export interface Chapter3Data {
+export interface Chapter3Case {
+  id: number;
   title: string;
-  npcId: string;
   caseDescriptionEn: string;
   caseDescriptionId: string;
   witnessStatementEn: string;
   witnessStatementId: string;
   question: string;
   suspects: Chapter3Suspect[];
+}
+
+export interface Chapter3Data {
+  title: string;
+  npcId: string;
+  cases: Chapter3Case[]; // 5 distinct cases!
   proactivePrompt: string;
 }
 
@@ -162,6 +179,7 @@ export interface MajorStory {
 
 export interface GameScore {
   vocabXp: number;
+  grammarXp: number;
   batangTourXp: number;
   ch1: number;
   ch2: number;
@@ -177,8 +195,8 @@ export interface SavedGameState {
   score: GameScore;
   studentWritingText: string;
   vocabMysterySolved: boolean;
+  grammarPracticeCompleted: boolean;
   batangTourCompleted: boolean;
   batangTourStep: number; // 0: waterfall, 1: kopi, 2: kitb, 3: completed
   lastSavedAt: number;
 }
-

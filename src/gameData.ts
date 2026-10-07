@@ -1,15 +1,79 @@
-import { MajorStory, NPC, VocabularyItem, VocabMysteryCard, BatangTourStop, Chapter2QuizItem } from './types';
+import { MajorStory, NPC, VocabularyItem, VocabMysteryCard, BatangTourStop, Chapter2QuizItem, GrammarPracticeQuestion } from './types';
 
 // Initial Vocabulary Mystery Cards to solve & match
 export const VOCAB_MYSTERY_CARDS: VocabMysteryCard[] = [
-  { id: 'v1', enWord: 'refreshing', idWord: 'menyegarkan', category: 'Quality', hint: 'Kualitas air terjun atau udara segar' },
-  { id: 'v2', enWord: 'delicious', idWord: 'lezat / nikmat', category: 'Quality', hint: 'Cita rasa kopi Surjo hangat' },
+  { id: 'v1', enWord: 'refreshing', idWord: 'menyegarkan', category: 'Quality', hint: 'Kualitas air terjun atau udara sejuk di pegunungan' },
+  { id: 'v2', enWord: 'delicious', idWord: 'lezat / nikmat', category: 'Quality', hint: 'Cita rasa kopi Surjo hangat khas Bawang' },
   { id: 'v3', enWord: 'modern', idWord: 'modern / canggih', category: 'Quality', hint: 'Karakteristik kawasan industri KITB' },
-  { id: 'v4', enWord: 'thick', idWord: 'tebal', category: 'Size', hint: 'Buku kas koperasi yang berisi banyak lembaran' },
-  { id: 'v5', enWord: 'powerful', idWord: 'bertenaga / kuat', category: 'Quality', hint: 'Kekuatan mesin sepeda motor bengkel' },
-  { id: 'v6', enWord: 'fast', idWord: 'cepat', category: 'Quality', hint: 'Kecepatan jaringan Wi-Fi router' },
-  { id: 'v7', enWord: 'sturdy', idWord: 'kokoh / kuat', category: 'Quality', hint: 'Karakteristik bahan logam atau gerbang' },
-  { id: 'v8', enWord: 'tall', idWord: 'tinggi', category: 'Size', hint: 'Ukuran air terjun atau tiang bendera' }
+  { id: 'v4', enWord: 'thick', idWord: 'tebal', category: 'Size', hint: 'Buku kas koperasi yang berisi ratusan lembar' },
+  { id: 'v5', enWord: 'powerful', idWord: 'bertenaga / kuat', category: 'Quality', hint: 'Kekuatan mesin sepeda motor bengkel otomotif' },
+  { id: 'v6', enWord: 'fast', idWord: 'cepat', category: 'Quality', hint: 'Kecepatan jaringan koneksi Wi-Fi router' },
+  { id: 'v7', enWord: 'sturdy', idWord: 'kokoh / kuat', category: 'Quality', hint: 'Karakteristik bahan logam atau rangka gerbang' },
+  { id: 'v8', enWord: 'tall', idWord: 'tinggi', category: 'Size', hint: 'Ukuran tiang bendera atau air terjun Curug Genting' }
+];
+
+// Interactive Grammar Practice Questions: It is / It has (have) / There is / There are
+export const GRAMMAR_PRACTICE_QUESTIONS: GrammarPracticeQuestion[] = [
+  {
+    id: 1,
+    promptSentence: '____ a modern computer lab in SMK Muhammadiyah Bawang.',
+    sentenceId: 'Ada sebuah laboratorium komputer modern di SMK Muhammadiyah Bawang.',
+    missingWordHint: 'Menunjukkan keberadaan SATU tempat atau benda tunggal',
+    options: ['There is', 'There are', 'It is', 'It has'],
+    correctAnswer: 'There is',
+    explanation: 'Gunakan "There is" untuk menunjukkan keberadaan SATU tempat atau benda tunggal (a modern computer lab).',
+    ruleCategory: 'There is'
+  },
+  {
+    id: 2,
+    promptSentence: 'Look at the red racing motorcycle! ____ very fast and powerful.',
+    sentenceId: 'Lihatlah sepeda motor balap merah itu! Kendaraan itu sangat cepat dan bertenaga.',
+    missingWordHint: 'Mendeskripsikan sifat/karakteristik suatu benda tunggal (adjective)',
+    options: ['It is', 'It has', 'There is', 'There are'],
+    correctAnswer: 'It is',
+    explanation: 'Gunakan "It is" diikuti kata sifat (adjective: fast and powerful) untuk mendeskripsikan karakteristik benda tunggal.',
+    ruleCategory: 'It is'
+  },
+  {
+    id: 3,
+    promptSentence: 'The cooperative ledger is very thick. ____ 300 white paper pages inside.',
+    sentenceId: 'Buku kas koperasi sangat tebal. Buku itu memiliki 300 halaman kertas putih di dalamnya.',
+    missingWordHint: 'Menyatakan kepemilikan/fitur yang dimiliki oleh sebuah benda tunggal',
+    options: ['It has', 'They have', 'There are', 'It is'],
+    correctAnswer: 'It has',
+    explanation: 'Gunakan "It has" untuk menyatakan fitur atau bagian yang dimiliki oleh satu benda tunggal (The ledger has 300 pages).',
+    ruleCategory: 'It has / They have'
+  },
+  {
+    id: 4,
+    promptSentence: 'In our automotive workshop, ____ many heavy steel wrenches on the tool wall.',
+    sentenceId: 'Di bengkel otomotif kita, ada banyak kunci pas baja berat di dinding perkakas.',
+    missingWordHint: 'Menunjukkan keberadaan BANYAK benda jamak (plural)',
+    options: ['There are', 'There is', 'It is', 'It has'],
+    correctAnswer: 'There are',
+    explanation: 'Gunakan "There are" untuk menyatakan keberadaan benda jamak lebih dari satu (many heavy steel wrenches).',
+    ruleCategory: 'There are'
+  },
+  {
+    id: 5,
+    promptSentence: 'The mechanics check the new racing tires. ____ four deep rubber grooves for safety.',
+    sentenceId: 'Para mekanik memeriksa ban balap baru. Ban-ban tersebut memiliki empat alur karet dalam demi keselamatan.',
+    missingWordHint: 'Menyatakan kepemilikan fitur oleh benda jamak (they)',
+    options: ['They have', 'It has', 'There is', 'It is'],
+    correctAnswer: 'They have',
+    explanation: 'Gunakan "They have" karena subjeknya jamak (the tires = they) saat menyatakan fitur/bagian yang dimiliki.',
+    ruleCategory: 'It has / They have'
+  },
+  {
+    id: 6,
+    promptSentence: '____ a tall Indonesian flag fluttering proudly in the central school field.',
+    sentenceId: 'Ada sebuah bendera Indonesia tinggi yang berkibar gagah di lapangan tengah sekolah.',
+    missingWordHint: 'Mengenalkan keberadaan SATU objek di tempat tertentu',
+    options: ['There is', 'There are', 'It has', 'They have'],
+    correctAnswer: 'There is',
+    explanation: 'Gunakan "There is" untuk mengenalkan keberadaan satu objek (a tall Indonesian flag).',
+    ruleCategory: 'There is'
+  }
 ];
 
 // 3 Batang Landmark Tour Dialogues & Simple Choices
@@ -54,7 +118,7 @@ export const BATANG_TOUR_STOPS: BatangTourStop[] = [
     npcId: 'pakjoko',
     npcName: 'Pak Joko',
     npcRole: 'Gazebo & Canteen Mentor (Pencinta Kopi Batang)',
-    npcZone: 'Kantin & Gazebo Santai',
+    npcZone: 'Kantin Sekolah & Gazebo Santai',
     locationName: 'Kopi Surjo Bawang (Surjo Traditional Coffee)',
     gender: 'male',
     title: 'Destinasi 2: Minum Kopi Surjo Bawang',
@@ -122,7 +186,7 @@ export const BATANG_TOUR_STOPS: BatangTourStop[] = [
 ];
 
 export const ALL_NPCS: NPC[] = [
-  // General School NPCs (Accessible to all students)
+  // General School NPCs
   {
     id: 'satpam',
     name: 'Pak Satpam',
@@ -180,8 +244,8 @@ export const ALL_NPCS: NPC[] = [
     name: 'Pak Joko',
     role: 'Gazebo & Canteen Mentor',
     gender: 'male',
-    x: 1360,
-    y: 1240,
+    x: 1170,
+    y: 1250, // Clearly positioned right in front of Kantin outdoor food area
     spriteType: 'student_male',
     zone: 'Kantin Sekolah',
     isBatangTourNpc: true,
@@ -221,28 +285,28 @@ export const ALL_NPCS: NPC[] = [
   {
     id: 'dina',
     name: 'Dina',
-    role: 'AKL Student Representative',
+    role: 'Student Staff (X AKL)',
     gender: 'female',
-    x: 1650,
-    y: 500,
+    x: 1680,
+    y: 440,
     spriteType: 'student_female',
     zone: 'Ruang Koperasi & AKL',
     majorSpecific: 'akl',
-    defaultGreetingEn: 'I need to check the ledger! It has a hard blue cover and numbered pages.',
-    defaultGreetingId: 'Saya harus memeriksa buku kas! Sampulnya biru keras dan halamannya bernomor.'
+    defaultGreetingEn: 'The accounting calculator is small, black, and very accurate.',
+    defaultGreetingId: 'Kalkulator akuntansi berukuran kecil, berwarna hitam, dan sangat akurat.'
   },
   {
     id: 'kakrani',
     name: 'Kak Rani',
-    role: 'AKL Outstanding Alumna',
+    role: 'AKL Alumna & App Developer',
     gender: 'female',
-    x: 1820,
-    y: 440,
-    spriteType: 'teacher_female',
+    x: 1780,
+    y: 380,
+    spriteType: 'student_female',
     zone: 'Ruang Koperasi & AKL',
     majorSpecific: 'akl',
-    defaultGreetingEn: 'Accurate descriptions protect everyone and keep financial records transparent.',
-    defaultGreetingId: 'Deskripsi yang akurat melindungi semua orang dan menjaga catatan keuangan transparan.'
+    defaultGreetingEn: 'Financial data must be exact and clear. Descriptive details help us verify transactions!',
+    defaultGreetingId: 'Data keuangan harus tepat dan jelas. Deskripsi detail membantu verifikasi transaksi!'
   },
 
   // Zone 3: Bengkel Otomotif (Strictly for Otomotif students)
@@ -252,53 +316,53 @@ export const ALL_NPCS: NPC[] = [
     role: 'Head of Automotive Workshop',
     gender: 'male',
     x: 480,
-    y: 1280,
+    y: 1240,
     spriteType: 'mechanic',
     zone: 'Bengkel Otomotif',
     majorSpecific: 'otomotif',
-    defaultGreetingEn: 'Safety first in our workshop! Every tool has a specific size, shape, and function.',
-    defaultGreetingId: 'Utamakan keselamatan di bengkel kita! Setiap perkakas punya ukuran, bentuk, dan fungsi khusus.'
+    defaultGreetingEn: 'Safety first in the workshop! Check every tool: its size, color, and material.',
+    defaultGreetingId: 'Utamakan keselamatan di bengkel! Periksa setiap alat: ukuran, warna, dan bahannya.'
   },
   {
     id: 'rio',
     name: 'Rio',
-    role: 'Mechanic Student',
+    role: 'Mechanic Student (X TO)',
     gender: 'male',
-    x: 720,
-    y: 1360,
+    x: 640,
+    y: 1260,
     spriteType: 'student_male',
     zone: 'Bengkel Otomotif',
     majorSpecific: 'otomotif',
-    defaultGreetingEn: 'The prototype engine is silent today, but its shiny steel exhaust is unmistakable!',
-    defaultGreetingId: 'Mesin prototipe sedang hening hari ini, tapi knalpot bajanya yang berkilau sangat khas!'
+    defaultGreetingEn: 'This torque wrench is heavy, silver, and made of hardened steel.',
+    defaultGreetingId: 'Kunci torsi ini berat, berwarna perak, dan terbuat dari baja keras.'
   },
 
-  // Zone 4: Lab Komputer & Jaringan TJKT (Strictly for TJKT students)
+  // Zone 4: Lab TJKT (Strictly for TJKT students)
   {
     id: 'bunisa',
     name: 'Bu Nisa',
-    role: 'Head of TJKT Network Lab',
+    role: 'Head of Computer & Network Lab',
     gender: 'female',
-    x: 1520,
-    y: 1250,
+    x: 1540,
+    y: 1240,
     spriteType: 'teacher_female',
     zone: 'Lab Jaringan TJKT',
     majorSpecific: 'tjkt',
-    defaultGreetingEn: 'Welcome to our beginner network lab! Everything here is clean, safe, and connected.',
-    defaultGreetingId: 'Selamat datang di lab jaringan kami! Semua perangkat di sini bersih, aman, dan terhubung.'
+    defaultGreetingEn: 'Welcome to the TJKT network lab! Look at the blinking server racks.',
+    defaultGreetingId: 'Selamat datang di lab jaringan TJKT! Perhatikan rak server yang berkedip.'
   },
   {
     id: 'pixel',
     name: 'Pixel',
-    role: 'Lab AI Assistant Robot',
-    gender: 'male',
-    x: 1750,
-    y: 1320,
+    role: 'AI Lab Robot Assistant',
+    gender: 'female',
+    x: 1720,
+    y: 1230,
     spriteType: 'robot',
     zone: 'Lab Jaringan TJKT',
     majorSpecific: 'tjkt',
-    defaultGreetingEn: 'Beep boop! I am Pixel, a cute small robot with a friendly blue screen!',
-    defaultGreetingId: 'Bip bup! Aku Pixel, robot kecil yang ramah dengan layar biru yang lucu!'
+    defaultGreetingEn: 'BEEP BOOP! I am Pixel. My metal casing is shiny, silver, and clean!',
+    defaultGreetingId: 'BEEP BOOP! Saya Pixel. Casing logam saya berkilau, perak, dan bersih!'
   }
 ];
 
@@ -306,77 +370,77 @@ export const ALL_NPCS: NPC[] = [
 const AKL_CHAPTER2_QUIZ: Chapter2QuizItem[] = [
   {
     id: 1,
-    question: 'Urutan kata sifat yang benar untuk buku kas koperasi (Ukuran ➔ Warna ➔ Bahan):',
-    questionId: 'Which is the correct adjective order (Size -> Color -> Material)?',
-    contextItem: 'Ledger Book',
-    options: ['thick blue paper ledger', 'blue thick paper ledger', 'paper thick blue ledger', 'thick paper blue ledger'],
-    correctAnswer: 'thick blue paper ledger',
-    explanation: 'Aturan Adjective Order: Ukuran (thick) ➔ Warna (blue) ➔ Bahan (paper) ➔ Kata Benda (ledger).',
+    question: 'Urutan kata sifat untuk buku kas koperasi (Ukuran ➔ Warna ➔ Bahan):',
+    questionId: 'Correct adjective order for the ledger:',
+    contextItem: 'Cooperative Ledger',
+    options: ['thick blue leather book', 'blue thick leather book', 'leather blue thick book', 'thick leather blue book'],
+    correctAnswer: 'thick blue leather book',
+    explanation: 'Aturan: Size (thick = tebal) ➔ Color (blue = biru) ➔ Material (leather = kulit) ➔ Noun (book).',
     category: 'Adjective Order'
   },
   {
     id: 2,
-    question: 'Urutan kata sifat untuk kotak uang kas kecil (Ukuran ➔ Warna ➔ Bahan):',
-    questionId: 'Which is the correct phrase for a cash box?',
-    contextItem: 'Cash Box',
-    options: ['small black metal cash box', 'metal black small cash box', 'black small metal cash box', 'small metal black cash box'],
-    correctAnswer: 'small black metal cash box',
-    explanation: 'Ukuran (small) ➔ Warna (black) ➔ Bahan (metal) ➔ Noun (cash box).',
+    question: 'Urutan kata sifat untuk kalkulator kasir akuntansi (Ukuran ➔ Warna ➔ Bahan):',
+    questionId: 'Adjective order for accounting calculator:',
+    contextItem: 'Cashier Calculator',
+    options: ['small black plastic calculator', 'black small plastic calculator', 'plastic black small calculator', 'small plastic black calculator'],
+    correctAnswer: 'small black plastic calculator',
+    explanation: 'Size (small = kecil) ➔ Color (black = hitam) ➔ Material (plastic = plastik).',
     category: 'Adjective Order'
   },
   {
     id: 3,
-    question: 'Kata sifat manakah di bawah ini yang tergolong ukuran (Size)?',
-    questionId: 'Which adjective belongs to SIZE?',
-    contextItem: 'Calculator',
-    options: ['large', 'grey', 'plastic', 'electronic'],
-    correctAnswer: 'large',
-    explanation: '"Large" (besar) adalah kata sifat ukuran (Size). "Grey" adalah warna, "plastic" adalah bahan.',
+    question: 'Manakah kata sifat yang menunjukkan UKURAN (Size)?',
+    questionId: 'Which adjective denotes SIZE?',
+    contextItem: 'General Concept',
+    options: ['wide', 'metallic', 'wooden', 'yellow'],
+    correctAnswer: 'wide',
+    explanation: '"Wide" (lebar) adalah ukuran (Size), sedangkan yang lain adalah bahan dan warna.',
     category: 'Size Adjective'
   },
   {
     id: 4,
-    question: 'Kata sifat manakah di bawah ini yang tergolong bahan (Material)?',
-    questionId: 'Which adjective represents MATERIAL?',
-    contextItem: 'Receipt Folder',
-    options: ['leather', 'thin', 'brown', 'useful'],
-    correctAnswer: 'leather',
-    explanation: '"Leather" (kulit) adalah bahan material. "Thin" adalah ukuran, "brown" adalah warna.',
+    question: 'Manakah kata yang menunjukkan BAHAN (Material)?',
+    questionId: 'Which word is a MATERIAL?',
+    contextItem: 'General Concept',
+    options: ['steel', 'tiny', 'purple', 'new'],
+    correctAnswer: 'steel',
+    explanation: '"Steel" (baja) merupakan material/bahan pembuatan lemari atau brankas.',
     category: 'Material Adjective'
   },
   {
     id: 5,
-    question: 'Pilihlah kalimat yang benar untuk mendeskripsikan kalkulator akuntansi:',
-    questionId: 'Choose the correct sentence to describe a calculator:',
-    contextItem: 'Calculator',
-    options: ['It is a compact grey plastic calculator.', 'It is a plastic grey compact calculator.', 'It is a grey compact plastic calculator.', 'It is a plastic compact grey calculator.'],
-    correctAnswer: 'It is a compact grey plastic calculator.',
-    explanation: 'Compact (ukuran/dimensi) ➔ grey (warna) ➔ plastic (bahan).',
+    question: 'Urutan kata sifat untuk brankas uang koperasi:',
+    questionId: 'Adjective order for money safe:',
+    contextItem: 'Cooperative Safe',
+    options: ['heavy grey iron safe', 'grey heavy iron safe', 'iron grey heavy safe', 'heavy iron grey safe'],
+    correctAnswer: 'heavy grey iron safe',
+    explanation: 'Heavy (ukuran/berat) ➔ grey (warna) ➔ iron (bahan besi) ➔ safe.',
     category: 'Adjective Order'
   },
   {
     id: 6,
-    question: 'Dalam deskripsi tunggal benda, kita menggunakan pola:',
-    questionId: 'To describe a single object feature, we use:',
-    contextItem: 'Single Ledger',
-    options: ['It has a hard cover.', 'They has a hard cover.', 'It have a hard cover.', 'They are a hard cover.'],
-    correctAnswer: 'It has a hard cover.',
-    explanation: 'Untuk subjek tunggal "It", gunakan kata kerja "has" (It has a hard cover).',
+    question: 'Kalimat manakah yang tepat untuk mendeskripsikan SATU meja akuntansi?',
+    questionId: 'Describe ONE accounting desk:',
+    contextItem: 'Accounting Desk',
+    options: ['It is a brown wooden desk.', 'They are a brown wooden desk.', 'It are a brown wooden desk.', 'There has a brown wooden desk.'],
+    correctAnswer: 'It is a brown wooden desk.',
+    explanation: 'Untuk satu benda tunggal (a desk), gunakan pola "It is a brown wooden desk."',
     category: 'Grammar Pattern'
   },
   {
     id: 7,
-    question: 'Urutan kata sifat untuk meja tulis akuntansi kayu:',
-    questionId: 'Correct adjective order for the wooden desk:',
-    contextItem: 'Accounting Desk',
-    options: ['wide brown wooden desk', 'brown wide wooden desk', 'wooden wide brown desk', 'wide wooden brown desk'],
-    correctAnswer: 'wide brown wooden desk',
-    explanation: 'Wide (ukuran lebar) ➔ brown (warna cokelat) ➔ wooden (bahan kayu).',
-    category: 'Adjective Order'
+    question: 'Kalimat manakah yang tepat untuk DUA nota kwitansi pembayaran?',
+    questionId: 'Describe TWO payment receipts:',
+    contextItem: 'Payment Receipts',
+    options: ['They are yellow receipts.', 'It is yellow receipts.', 'They is yellow receipts.', 'It are yellow receipts.'],
+    correctAnswer: 'They are yellow receipts.',
+    explanation: 'Untuk benda jamak (lebih dari satu), gunakan subjek "They are".',
+    category: 'Grammar Pattern'
   },
   {
     id: 8,
-    question: 'Manakah kata sifat kualitas (Quality) yang paling tepat untuk laporan keuangan?',
+    question: 'Kata sifat manakah yang paling tepat untuk mendeskripsikan laporan keuangan yang bebas kesalahan?',
     questionId: 'Which quality adjective describes financial records?',
     contextItem: 'Financial Report',
     options: ['accurate', 'green', 'circular', 'wooden'],
@@ -430,82 +494,82 @@ const OTOMOTIF_CHAPTER2_QUIZ: Chapter2QuizItem[] = [
   },
   {
     id: 3,
-    question: 'Kata sifat manakah yang menunjukkan bahan (Material)?',
-    questionId: 'Which word represents MATERIAL?',
-    contextItem: 'Exhaust Pipe',
-    options: ['titanium', 'light', 'shiny', 'fast'],
-    correctAnswer: 'titanium',
-    explanation: '"Titanium" adalah bahan logam pembuat knalpot balap.',
-    category: 'Material Adjective'
-  },
-  {
-    id: 4,
-    question: 'Kata sifat manakah yang menunjukkan ukuran (Size)?',
-    questionId: 'Which word represents SIZE?',
-    contextItem: 'Motorcycle Mirror',
-    options: ['compact', 'chrome', 'glass', 'useful'],
+    question: 'Manakah kata sifat yang menunjukkan UKURAN (Size)?',
+    questionId: 'Which adjective denotes SIZE?',
+    contextItem: 'General Concept',
+    options: ['compact', 'aluminum', 'matte', 'orange'],
     correctAnswer: 'compact',
-    explanation: '"Compact" (ringkas) menjelaskan dimensi ukuran spion.',
+    explanation: '"Compact" (ringkas/padat) adalah ukuran, sedangkan yang lain warna dan bahan.',
     category: 'Size Adjective'
   },
   {
+    id: 4,
+    question: 'Manakah kata yang menunjukkan BAHAN (Material) suku cadang motor?',
+    questionId: 'Which word is a MATERIAL?',
+    contextItem: 'Motorcycle Parts',
+    options: ['aluminum', 'bright', 'long', 'fast'],
+    correctAnswer: 'aluminum',
+    explanation: '"Aluminum" (aluminium) adalah bahan logam ringan pembuat velg motor.',
+    category: 'Material Adjective'
+  },
+  {
     id: 5,
-    question: 'Urutan kata sifat untuk tangki bensin motor prototipe:',
-    questionId: 'Adjective order for fuel tank:',
+    question: 'Urutan kata sifat untuk tangki bahan bakar motor balap:',
+    questionId: 'Adjective order for a fuel tank:',
     contextItem: 'Fuel Tank',
-    options: ['large orange metal tank', 'metal orange large tank', 'orange large metal tank', 'large metal orange tank'],
+    options: ['large orange metal tank', 'orange large metal tank', 'metal orange large tank', 'large metal orange tank'],
     correctAnswer: 'large orange metal tank',
     explanation: 'Large (ukuran besar) ➔ orange (warna oranye) ➔ metal (bahan logam).',
     category: 'Adjective Order'
   },
   {
     id: 6,
-    question: 'Untuk mendeskripsikan dua buah spion motor (jamak), kalimat yang benar adalah:',
-    questionId: 'To describe plural mirrors, the correct sentence is:',
-    contextItem: 'Dual Mirrors',
-    options: ['They are aerodynamic mirrors.', 'It are aerodynamic mirrors.', 'It is aerodynamic mirrors.', 'They has aerodynamic mirrors.'],
-    correctAnswer: 'They are aerodynamic mirrors.',
-    explanation: 'Karena spion ada dua (jamak), gunakan "They are...".',
+    question: 'Kalimat manakah yang tepat untuk mendeskripsikan SATU mesin motor 150cc?',
+    questionId: 'Describe ONE 150cc motorcycle engine:',
+    contextItem: 'Motorcycle Engine',
+    options: ['It is a powerful engine.', 'They are a powerful engine.', 'It are a powerful engine.', 'They is a powerful engine.'],
+    correctAnswer: 'It is a powerful engine.',
+    explanation: 'Mesin motor tunggal (one engine) menggunakan subjek "It is".',
     category: 'Grammar Pattern'
   },
   {
     id: 7,
-    question: 'Urutan kata sifat untuk helm keselamatan bengkel:',
-    questionId: 'Adjective order for safety helmet:',
-    contextItem: 'Safety Helmet',
-    options: ['sturdy white plastic helmet', 'white sturdy plastic helmet', 'plastic sturdy white helmet', 'sturdy plastic white helmet'],
-    correctAnswer: 'sturdy white plastic helmet',
-    explanation: 'Sturdy (sifat kuat) ➔ white (warna putih) ➔ plastic (bahan plastik).',
-    category: 'Adjective Order'
+    question: 'Kalimat manakah yang tepat untuk mendeskripsikan DUA kaca spion aerodinamis?',
+    questionId: 'Describe TWO aerodynamic rear mirrors:',
+    contextItem: 'Rear Mirrors',
+    options: ['They are aerodynamic mirrors.', 'It is aerodynamic mirrors.', 'They is aerodynamic mirrors.', 'It are aerodynamic mirrors.'],
+    correctAnswer: 'They are aerodynamic mirrors.',
+    explanation: 'Dua kaca spion (jamak) menggunakan pola "They are".',
+    category: 'Grammar Pattern'
   },
   {
     id: 8,
-    question: 'Kata sifat kualitas (Quality) yang tepat untuk mendeskripsikan mesin 150cc:',
-    questionId: 'Quality adjective for the 150cc engine:',
-    contextItem: 'Engine',
-    options: ['powerful', 'round', 'yellow', 'wooden'],
-    correctAnswer: 'powerful',
-    explanation: '"Powerful" (bertenaga) menggambarkan performa mesin motor.',
+    question: 'Kata sifat manakah yang paling tepat untuk mendeskripsikan knalpot yang tahan karat?',
+    questionId: 'Which adjective describes a non-rusting exhaust?',
+    contextItem: 'Stainless Exhaust',
+    options: ['stainless', 'wooden', 'flimsy', 'soft'],
+    correctAnswer: 'stainless',
+    explanation: '"Stainless" (tahan karat) adalah sifat mutu tinggi logam knalpot.',
     category: 'Quality Adjective'
   },
   {
     id: 9,
-    question: 'Urutan kata sifat untuk dongkrak hidrolik bengkel:',
-    questionId: 'Adjective order for hydraulic jack:',
-    contextItem: 'Hydraulic Jack',
-    options: ['heavy red iron jack', 'red heavy iron jack', 'iron red heavy jack', 'heavy iron red jack'],
-    correctAnswer: 'heavy red iron jack',
-    explanation: 'Heavy (berat) ➔ red (warna merah) ➔ iron (bahan besi).',
+    question: 'Urutan kata sifat untuk rantai transmisi motor:',
+    questionId: 'Adjective order for drive chain:',
+    contextItem: 'Drive Chain',
+    options: ['long gold steel chain', 'gold long steel chain', 'steel gold long chain', 'long steel gold chain'],
+    correctAnswer: 'long gold steel chain',
+    explanation: 'Long (ukuran panjang) ➔ gold (warna emas) ➔ steel (bahan baja).',
     category: 'Adjective Order'
   },
   {
     id: 10,
-    question: 'Lengkapi deskripsi rantai motor: "It is a [long] [silver] [steel] chain."',
-    questionId: 'Identify the rule applied in this phrase:',
-    contextItem: 'Drive Chain',
-    options: ['Size ➔ Color ➔ Material', 'Material ➔ Color ➔ Size', 'Color ➔ Size ➔ Material', 'Noun ➔ Size ➔ Color'],
-    correctAnswer: 'Size ➔ Color ➔ Material',
-    explanation: 'Urutan baku bahasa Inggris selalu Size (long) ➔ Color (silver) ➔ Material (steel).',
+    question: 'Susun frasa lengkap: [aerodynamic] [red] [plastic] [fairing]:',
+    questionId: 'Adjective order phrase:',
+    contextItem: 'Front Fairing',
+    options: ['an aerodynamic red plastic fairing', 'a red aerodynamic plastic fairing', 'a plastic red aerodynamic fairing', 'an aerodynamic plastic red fairing'],
+    correctAnswer: 'an aerodynamic red plastic fairing',
+    explanation: 'Kualitas (aerodynamic) ➔ Warna (red) ➔ Bahan (plastic) ➔ Kata Benda (fairing).',
     category: 'Adjective Order'
   }
 ];
@@ -514,8 +578,8 @@ const OTOMOTIF_CHAPTER2_QUIZ: Chapter2QuizItem[] = [
 const TJKT_CHAPTER2_QUIZ: Chapter2QuizItem[] = [
   {
     id: 1,
-    question: 'Urutan kata sifat yang benar untuk kabel LAN (Ukuran ➔ Warna ➔ Bahan):',
-    questionId: 'Simple adjective order for a network cable (Size -> Color -> Material):',
+    question: 'Urutan kata sifat untuk kabel jaringan LAN (Ukuran ➔ Warna ➔ Bahan):',
+    questionId: 'Adjective order for LAN cable:',
     contextItem: 'LAN Cable',
     options: ['long blue copper cable', 'blue long copper cable', 'copper blue long cable', 'long copper blue cable'],
     correctAnswer: 'long blue copper cable',
@@ -646,46 +710,192 @@ export const MAJOR_STORIES: Record<string, MajorStory> = {
     chapter2: {
       title: 'Bab 2: Detail Benda (10 Latihan Adjective Order)',
       npcId: 'dina',
-      instruction: 'Jawab 10 soal mengenai urutan kata sifat (Ukuran ➔ Warna ➔ Bahan) dan fitur benda akuntansi.',
+      instruction: 'Jawab 10 soal acak mengenai urutan kata sifat (Ukuran ➔ Warna ➔ Bahan) dan fitur benda akuntansi.',
       quizItems: AKL_CHAPTER2_QUIZ,
       explanation: 'Urutan kata sifat bahasa Inggris (Adjective Order): Ukuran (Size/Dimension) ➔ Warna (Color) ➔ Bahan (Material) ➔ Kata Benda (Noun)!',
       proactivePrompt: 'Remember the English adjective rule: Size comes first, then Color, then Material! What is the correct order?'
     },
     chapter3: {
-      title: 'Bab 3: Kasus Petunjuk (Problem-Based Mystery)',
+      title: 'Bab 3: Kasus Petunjuk (5 Problem-Based Detective Cases)',
       npcId: 'satpam',
-      caseDescriptionEn: 'The security camera and Pak Satpam saw three visitors near the koperasi corridor at 11:30 AM.',
-      caseDescriptionId: 'Kamera pengawas dan Pak Satpam melihat tiga orang di lorong koperasi pukul 11.30 WIB.',
-      witnessStatementEn: '"The person who took the file was tall, wearing a dark navy blazer, and holding a large emerald green pouch."',
-      witnessStatementId: '"Orang yang membawa berkas itu berpostur tinggi, memakai blazer biru dongker tua, dan memegang pouch hijau zamrud besar."',
-      question: 'Which person exactly matches the witness descriptive details?',
-      suspects: [
+      cases: [
         {
-          id: 'person_a',
-          title: 'Sosok A: Siswa Berjaket Merah',
-          description: 'Short student with a bright red jacket and small black backpack.',
-          visualTag: 'Short • Red Jacket • Black Backpack',
-          isCorrect: false,
-          feedback: 'Salah: Saksi menyebutkan "tall" (tinggi) dan "dark navy blazer", bukan jaket merah pendek!'
+          id: 1,
+          title: 'Kasus 1: Sosok yang Membawa Dokumen Koperasi',
+          caseDescriptionEn: 'CCTV footage captured three people near the koperasi corridor at 11:30 AM.',
+          caseDescriptionId: 'Rekaman CCTV memperlihatkan tiga orang di lorong koperasi pada pukul 11.30 WIB.',
+          witnessStatementEn: '"The person holding the folder was tall, wearing a dark navy blazer, and carrying a large emerald green pouch."',
+          witnessStatementId: '"Orang yang membawa map itu berpostur tinggi, mengenakan blazer biru dongker tua, dan membawa pouch hijau zamrud besar."',
+          question: 'Which person exactly matches the witness descriptive details?',
+          suspects: [
+            {
+              id: 'c1_a',
+              title: 'Sosok A: Siswa Berjaket Merah',
+              description: 'Short student with a bright red jacket and small black backpack.',
+              visualTag: 'Short • Red Jacket • Black Backpack',
+              isCorrect: false,
+              feedback: 'Salah: Saksi menyebutkan "tall" (tinggi) dan "dark navy blazer", bukan jaket merah pendek!'
+            },
+            {
+              id: 'c1_b',
+              title: 'Sosok B: Sosok Berblazer Dongker',
+              description: 'Tall figure in a neat dark navy blazer carrying a large emerald green pouch.',
+              visualTag: 'Tall • Dark Navy Blazer • Large Emerald Green Pouch',
+              isCorrect: true,
+              feedback: 'Tepat sekali! Semua ciri deskriptif (tall, navy blazer, large emerald green pouch) cocok 100%!'
+            },
+            {
+              id: 'c1_c',
+              title: 'Sosok C: Petugas Topi Kuning',
+              description: 'Medium height person with a yellow hat and a brown cardboard carton.',
+              visualTag: 'Medium Height • Yellow Hat • Brown Carton',
+              isCorrect: false,
+              feedback: 'Salah: Pakaian dan barang bawaan tidak sesuai dengan deskripsi saksi.'
+            }
+          ]
         },
         {
-          id: 'person_b',
-          title: 'Sosok B: Sosok Berblazer Dongker',
-          description: 'Tall figure in a neat dark navy blazer carrying a large emerald green pouch.',
-          visualTag: 'Tall • Dark Navy Blazer • Large Emerald Green Pouch',
-          isCorrect: true,
-          feedback: 'Tepat sekali! Semua ciri deskriptif (tall, navy blazer, large emerald green pouch) cocok 100% dengan keterangan saksi!'
+          id: 2,
+          title: 'Kasus 2: Kuitansi Transaksi Terakhir',
+          caseDescriptionEn: 'A crucial transaction slip was misplaced on the reception counter.',
+          caseDescriptionId: 'Kuitansi transaksi penting tertinggal di atas meja kasir koperasi.',
+          witnessStatementEn: '"The missing slip is a small rectangular yellow paper with a red official stamp in the upper corner."',
+          witnessStatementId: '"Nota yang dicari adalah kertas kuning kecil berbentuk persegi panjang dengan cap stempel merah resmi di sudut atas."',
+          question: 'Which receipt slip matches the description?',
+          suspects: [
+            {
+              id: 'c2_a',
+              title: 'Slip A: Kertas Struk Belanja Putih',
+              description: 'Long white printed thermal paper with faded grey barcode.',
+              visualTag: 'Long • White Paper • Grey Barcode',
+              isCorrect: false,
+              feedback: 'Salah: Nota ini putih dan panjang, bukan kuning persegi panjang dengan cap merah.'
+            },
+            {
+              id: 'c2_b',
+              title: 'Slip B: Nota Kuitansi Kuning',
+              description: 'Small rectangular yellow paper marked with a crisp red official stamp.',
+              visualTag: 'Small Rectangular • Yellow Paper • Red Stamp',
+              isCorrect: true,
+              feedback: 'Benar sekali! Kertas kuning kecil persegi panjang dengan cap merah resmi sesuai dengan deskripsi.'
+            },
+            {
+              id: 'c2_c',
+              title: 'Slip C: Brosur Lipat Biru',
+              description: 'Square blue folded flyer with black text and no stamps.',
+              visualTag: 'Square • Blue Paper • No Stamp',
+              isCorrect: false,
+              feedback: 'Salah: Ini adalah brosur lipat biru, bukan kuitansi resmi.'
+            }
+          ]
         },
         {
-          id: 'person_c',
-          title: 'Sosok C: Petugas Topi Kuning',
-          description: 'Medium height person with a yellow hat and a brown cardboard carton.',
-          visualTag: 'Medium Height • Yellow Hat • Brown Carton',
-          isCorrect: false,
-          feedback: 'Salah: Warna dan barang bawaan tidak sesuai dengan deskripsi saksi.'
+          id: 3,
+          title: 'Kasus 3: Kalkulator Kasir Utama',
+          caseDescriptionEn: 'The chief cashier misplaced her high-precision accounting calculator.',
+          caseDescriptionId: 'Kasir kepala mencari kalkulator akuntansi presisi tinggi miliknya.',
+          witnessStatementEn: '"It is a compact black electronic calculator with large grey rubber buttons and a 14-digit LCD display."',
+          witnessStatementId: '"Kalkulator tersebut berukuran ringkas, berwarna hitam, dengan tombol karet abu-abu besar dan layar LCD 14 digit."',
+          question: 'Which calculator is the cashier looking for?',
+          suspects: [
+            {
+              id: 'c3_a',
+              title: 'Kalkulator A: Mini Solar Pink',
+              description: 'Tiny pink solar toy calculator with 8 digits and tiny hard plastic keys.',
+              visualTag: 'Tiny • Pink Plastic • 8 Digits',
+              isCorrect: false,
+              feedback: 'Salah: Kalkulator kasir berwarna hitam dan memiliki tombol karet abu-abu besar.'
+            },
+            {
+              id: 'c3_b',
+              title: 'Kalkulator B: Kalkulator Digital Hitam',
+              description: 'Compact black electronic calculator featuring large grey rubber buttons and a 14-digit LCD display.',
+              visualTag: 'Compact • Black Body • Grey Rubber Buttons • 14 Digits',
+              isCorrect: true,
+              feedback: 'Tepat sekali! Warna hitam, tombol karet abu-abu besar, dan layar 14 digit sangat sesuai.'
+            },
+            {
+              id: 'c3_c',
+              title: 'Kalkulator C: Mesin Tik Jadul',
+              description: 'Heavy ancient mechanical adding machine with rusty metal levers.',
+              visualTag: 'Heavy • Mechanical • Rusty Levers',
+              isCorrect: false,
+              feedback: 'Salah: Ini mesin mekanik kuno, bukan kalkulator elektronik ringkas.'
+            }
+          ]
+        },
+        {
+          id: 4,
+          title: 'Kasus 4: Kunci Brankas Penyimpan Berkas',
+          caseDescriptionEn: 'The master key of the document safe must be retrieved from the key cabinet.',
+          caseDescriptionId: 'Kunci utama brankas arsip harus diambil dari lemari kunci.',
+          witnessStatementEn: '"The safe key is a small shiny brass key with an ornate circular ring and an engraved number 7."',
+          witnessStatementId: '"Kunci brankas tersebut adalah kunci kuningan kecil mengilap dengan cincin gantungan bundar berukir angka 7."',
+          question: 'Which key is the authentic safe key?',
+          suspects: [
+            {
+              id: 'c4_a',
+              title: 'Kunci A: Kunci Gembok Besi Besar',
+              description: 'Huge rusted black iron padlock key with a square head.',
+              visualTag: 'Huge • Black Iron • Square Head',
+              isCorrect: false,
+              feedback: 'Salah: Kunci ini besi hitam besar, bukan kuningan mengilap.'
+            },
+            {
+              id: 'c4_b',
+              title: 'Kunci B: Kunci Kuningan Berukir',
+              description: 'Small shiny brass key with an ornate circular ring and engraved number 7.',
+              visualTag: 'Small • Shiny Brass • Circular Ring • Number 7',
+              isCorrect: true,
+              feedback: 'Tepat! Bahan kuningan (brass), cincin bundar, dan ukiran angka 7 cocok sempurna.'
+            },
+            {
+              id: 'c4_c',
+              title: 'Kunci C: Kartu Magnetik Putih',
+              description: 'Flat white plastic RFID card without any metal parts.',
+              visualTag: 'Plastic Card • White • No Metal',
+              isCorrect: false,
+              feedback: 'Salah: Saksi mendeskripsikan kunci logam kuningan, bukan kartu plastik.'
+            }
+          ]
+        },
+        {
+          id: 5,
+          title: 'Kasus 5: Tas Penyimpan Buku Besar',
+          caseDescriptionEn: 'A container used to transport the ledger safely during the audit transfer.',
+          caseDescriptionId: 'Wadah yang digunakan untuk membawa buku besar saat proses audit.',
+          witnessStatementEn: '"It is a sturdy brown leather briefcase with twin silver metal buckles and a reinforced padded handle."',
+          witnessStatementId: '"Tas tersebut adalah koper jinjing kulit cokelat yang kokoh dengan dua gesper logam perak dan pegangan empuk."',
+          question: 'Which bag is the correct document case?',
+          suspects: [
+            {
+              id: 'c5_a',
+              title: 'Tas A: Koper Jinjing Kulit Cokelat',
+              description: 'Sturdy brown leather briefcase equipped with twin silver metal buckles and a reinforced padded handle.',
+              visualTag: 'Sturdy • Brown Leather • Twin Silver Buckles • Padded Handle',
+              isCorrect: true,
+              feedback: 'Hebat! Semua rincian (sturdy, brown leather, twin silver buckles) berhasil dipecahkan!'
+            },
+            {
+              id: 'c5_b',
+              title: 'Tas B: Kantong Plastik Biru Tipis',
+              description: 'Thin transparent blue plastic grocery bag with ripped handles.',
+              visualTag: 'Thin • Blue Plastic • Ripped',
+              isCorrect: false,
+              feedback: 'Salah: Ini kantong kresek tipis, tidak cocok untuk dokumen berharga.'
+            },
+            {
+              id: 'c5_c',
+              title: 'Tas C: Ransel Olahraga Abu-abu',
+              description: 'Worn grey canvas sports backpack with muddy straps.',
+              visualTag: 'Grey Canvas • Sports Backpack',
+              isCorrect: false,
+              feedback: 'Salah: Tas ransel olahraga kanvas bukan koper kulit cokelat yang dicari.'
+            }
+          ]
         }
       ],
-      proactivePrompt: 'Carefully compare the adjectives: tall, navy blazer, and emerald green pouch. Who matches?'
+      proactivePrompt: 'Carefully compare the descriptive clues in the witness statement: size, color, material, and features!'
     },
     chapter4: {
       title: 'Bab 4: Susun Paragraf Deskriptif',
@@ -750,181 +960,472 @@ export const MAJOR_STORIES: Record<string, MajorStory> = {
     chapter2: {
       title: 'Bab 2: Detail Benda (10 Latihan Adjective Order)',
       npcId: 'rio',
-      instruction: 'Jawab 10 soal mengenai urutan kata sifat perkakas otomotif (Ukuran/Berat ➔ Warna ➔ Bahan).',
+      instruction: 'Jawab 10 soal acak mengenai urutan kata sifat perkakas otomotif (Ukuran/Berat ➔ Warna ➔ Bahan).',
       quizItems: OTOMOTIF_CHAPTER2_QUIZ,
       explanation: 'Urutan kata sifat: Ukuran/Karakteristik Fisik (Size/Weight) ➔ Warna (Color) ➔ Bahan (Material) ➔ Kata Benda (Noun)!',
       proactivePrompt: 'Which one comes first: Weight/Size, Color, or Material? Try selecting the correct word for each slot!'
     },
     chapter3: {
-      title: 'Bab 3: Kasus Petunjuk (Problem-Based Mystery)',
+      title: 'Bab 3: Kasus Petunjuk (5 Problem-Based Detective Cases)',
       npcId: 'pakbimo',
-      caseDescriptionEn: 'The prototype motorcycle left tire tracks and a technical note near Bay 4 of the workshop.',
-      caseDescriptionId: 'Motor prototipe meninggalkan jejak ban dan catatan teknis di dekat Bay 4 bengkel.',
-      witnessStatementEn: '"The target motorcycle has dual aerodynamic rear mirrors, wide grooved racing tires, and a matte black fuel tank."',
-      witnessStatementId: '"Motor target memiliki spion ganda aerodinamis, ban balap beralur lebar, dan tangki bensin hitam doff."',
-      question: 'Which vehicle parked in the back alley matches the description?',
-      suspects: [
+      cases: [
         {
-          id: 'bike_a',
-          title: 'Motor Klasik Bebek',
-          description: 'Old commuter bike with single round mirror and narrow street tires.',
-          visualTag: 'Single Round Mirror • Narrow Tires • Chrome Tank',
-          isCorrect: false,
-          feedback: 'Salah: Motor ini memiliki satu spion bulat dan ban sempit, tidak cocok dengan deskripsi.'
+          id: 1,
+          title: 'Kasus 1: Motor Prototipe di Lorong Belakang',
+          caseDescriptionEn: 'The prototype motorcycle left tire tracks and a technical note near Bay 4 of the workshop.',
+          caseDescriptionId: 'Motor prototipe meninggalkan jejak ban dan catatan teknis di dekat Bay 4 bengkel.',
+          witnessStatementEn: '"The target motorcycle has dual aerodynamic rear mirrors, wide grooved racing tires, and a matte black fuel tank."',
+          witnessStatementId: '"Motor target memiliki spion ganda aerodinamis, ban balap beralur lebar, dan tangki bensin hitam doff."',
+          question: 'Which vehicle parked in the back alley matches the description?',
+          suspects: [
+            {
+              id: 'oc1_a',
+              title: 'Motor A: Motor Klasik Bebek',
+              description: 'Old commuter bike with single round mirror and narrow street tires.',
+              visualTag: 'Single Round Mirror • Narrow Tires • Chrome Tank',
+              isCorrect: false,
+              feedback: 'Salah: Motor ini memiliki satu spion bulat dan ban sempit, tidak cocok dengan deskripsi.'
+            },
+            {
+              id: 'oc1_b',
+              title: 'Motor B: Prototipe Muhiba Racing',
+              description: 'Sport prototype with dual aerodynamic mirrors, wide racing tires, and a matte black tank.',
+              visualTag: 'Dual Aero Mirrors • Wide Racing Tires • Matte Black Tank',
+              isCorrect: true,
+              feedback: 'Tepat sekali! Dua spion aerodinamis, ban balap lebar, dan tangki hitam doff cocok 100%!'
+            },
+            {
+              id: 'oc1_c',
+              title: 'Motor C: Skuter Matic Hijau',
+              description: 'Cute light green automatic scooter with chrome basket.',
+              visualTag: 'Green Scooter • Front Basket • Small Wheels',
+              isCorrect: false,
+              feedback: 'Salah: Skuter matic berkeranjang bukan motor prototipe balap.'
+            }
+          ]
         },
         {
-          id: 'bike_b',
-          title: 'Prototipe Muhiba Racing',
-          description: 'Sport prototype with dual aerodynamic mirrors, wide racing tires, and a matte black tank.',
-          visualTag: 'Dual Aero Mirrors • Wide Racing Tires • Matte Black Tank',
-          isCorrect: true,
-          feedback: 'Benar sekali! Ciri fisik motor ini cocok persis dengan catatan teknis yang dicari!'
+          id: 2,
+          title: 'Kasus 2: Kunci Momen Spesial (Torque Wrench)',
+          caseDescriptionEn: 'The mechanic needs the exact torque wrench to calibrate cylinder head bolts.',
+          caseDescriptionId: 'Mekanik memerlukan kunci momen khusus untuk mengencangkan baut kepala silinder.',
+          witnessStatementEn: '"Look for a long silver steel torque wrench equipped with a calibrated digital dial and knurled grip."',
+          witnessStatementId: '"Cari kunci momen baja perak yang panjang dengan jarum dial digital terkalibrasi dan pegangan bergerigi."',
+          question: 'Which tool on the workbench is the torque wrench?',
+          suspects: [
+            {
+              id: 'oc2_a',
+              title: 'Alat A: Kunci Pas Terbuka Berkarat',
+              description: 'Short rusted open-ended iron spanner with cracked handle.',
+              visualTag: 'Short • Rusted Iron • Open End',
+              isCorrect: false,
+              feedback: 'Salah: Alat ini berkarat dan pendek, bukan kunci momen baja perak digital.'
+            },
+            {
+              id: 'oc2_b',
+              title: 'Alat B: Kunci Momen Baja Digital',
+              description: 'Long silver steel torque wrench equipped with a calibrated digital dial and knurled grip.',
+              visualTag: 'Long • Silver Steel • Digital Dial • Knurled Grip',
+              isCorrect: true,
+              feedback: 'Benar sekali! Kunci momen baja perak panjang dengan dial digital terkalibrasi.'
+            },
+            {
+              id: 'oc2_c',
+              title: 'Alat C: Obeng Plastik Kuning',
+              description: 'Medium yellow plastic screwdriver with flat tip.',
+              visualTag: 'Yellow Plastic • Flat Tip Screwdriver',
+              isCorrect: false,
+              feedback: 'Salah: Ini adalah obeng plastik biasa.'
+            }
+          ]
         },
         {
-          id: 'bike_c',
-          title: 'Skuter Listrik Hijau',
-          description: 'Electric moped with bright lime green paint and smooth treadless wheels.',
-          visualTag: 'Lime Green • Smooth Wheels • Plastic Basket',
-          isCorrect: false,
-          feedback: 'Salah: Warna dan jenis roda sangat berbeda dari deskripsi saksi.'
+          id: 3,
+          title: 'Kasus 3: Ban Uji Emisi & Kecepatan',
+          caseDescriptionEn: 'A specific tire compound was prepared for the emission dyno test.',
+          caseDescriptionId: 'Satu set ban khusus disiapkan untuk pengujian dyno emisi.',
+          witnessStatementEn: '"The designated tire is a wide black synthetic rubber tire with three yellow racing stripes along the rim."',
+          witnessStatementId: '"Ban yang ditunjuk adalah ban karet sintetis hitam lebar dengan tiga garis balap kuning di sepanjang pelek."',
+          question: 'Which tire on the rack is the designated test tire?',
+          suspects: [
+            {
+              id: 'oc3_a',
+              title: 'Ban A: Ban Balap Bergaris Kuning',
+              description: 'Wide black synthetic rubber tire decorated with three yellow racing stripes along the rim.',
+              visualTag: 'Wide • Black Rubber • Three Yellow Racing Stripes',
+              isCorrect: true,
+              feedback: 'Tepat! Lebar, hitam, dan memiliki tiga garis kuning sesuai dengan deskripsi saksi.'
+            },
+            {
+              id: 'oc3_b',
+              title: 'Ban B: Ban Trail Berlumpur',
+              description: 'Chunky brown off-road knobby tire caked with dry mud.',
+              visualTag: 'Chunky • Knobby Mud Tire',
+              isCorrect: false,
+              feedback: 'Salah: Ini ban trail tanah berlumpur, bukan ban dyno bergaris kuning.'
+            },
+            {
+              id: 'oc3_c',
+              title: 'Ban C: Ban Sepeda Tipis',
+              description: 'Extremely narrow black bicycle tire with thin wire spokes.',
+              visualTag: 'Narrow • Bicycle Tire',
+              isCorrect: false,
+              feedback: 'Salah: Ini adalah ban sepeda tipis.'
+            }
+          ]
+        },
+        {
+          id: 4,
+          title: 'Kasus 4: Busi Pengapian Balap (Spark Plug)',
+          caseDescriptionEn: 'The high-performance ignition spark plug is needed to start the test bike.',
+          caseDescriptionId: 'Busi pengapian performa tinggi diperlukan untuk menyalakan motor uji coba.',
+          witnessStatementEn: '"The mechanic chose a brand-new white ceramic spark plug with an iridescent copper tip and gold threading."',
+          witnessStatementId: '"Mekanik memilih busi keramik putih baru dengan ujung tembaga berkilau dan ulir berwarna emas."',
+          question: 'Which spark plug is the high-performance ignition unit?',
+          suspects: [
+            {
+              id: 'oc4_a',
+              title: 'Busi A: Busi Bekas Berjelaga',
+              description: 'Old black fouled spark plug covered with carbon residue.',
+              visualTag: 'Old • Black Fouled • Carbon Residue',
+              isCorrect: false,
+              feedback: 'Salah: Busi ini kotor berjelaga karbon, bukan busi baru keramik putih.'
+            },
+            {
+              id: 'oc4_b',
+              title: 'Busi B: Busi Keramik Putih Baru',
+              description: 'Brand-new white ceramic spark plug with an iridescent copper tip and gold threading.',
+              visualTag: 'Brand-new • White Ceramic • Copper Tip • Gold Threading',
+              isCorrect: true,
+              feedback: 'Tepat sekali! Keramik putih, ujung tembaga, dan ulir emas cocok dengan deskripsi.'
+            },
+            {
+              id: 'oc4_c',
+              title: 'Busi C: Sekring Lampu Putus',
+              description: 'Small glass electrical fuse with broken filament.',
+              visualTag: 'Glass Fuse • Broken Filament',
+              isCorrect: false,
+              feedback: 'Salah: Ini adalah sekring kaca, bukan busi motor.'
+            }
+          ]
+        },
+        {
+          id: 5,
+          title: 'Kasus 5: Knalpot Khusus (Custom Exhaust System)',
+          caseDescriptionEn: 'The custom exhaust system was mounted on the dyno testing stand.',
+          caseDescriptionId: 'Sistem knalpot kustom dipasang pada dudukan dyno test bengkel.',
+          witnessStatementEn: '"It is a curved silver stainless steel exhaust pipe with a blue anodized titanium heat guard."',
+          witnessStatementId: '"Knalpot tersebut berupa pipa lengkung baja tahan karat perak dengan pelindung panas titanium biru teranodisasi."',
+          question: 'Which exhaust pipe matches the engineering description?',
+          suspects: [
+            {
+              id: 'oc5_a',
+              title: 'Knalpot A: Pipa Knalpot Kustom Stainless',
+              description: 'Curved silver stainless steel exhaust pipe with a blue anodized titanium heat guard.',
+              visualTag: 'Curved • Silver Stainless • Blue Titanium Heat Guard',
+              isCorrect: true,
+              feedback: 'Luar biasa! Semua ciri teknis (curved, stainless steel, blue titanium guard) cocok sempurna!'
+            },
+            {
+              id: 'oc5_b',
+              title: 'Knalpot B: Pipa Besi Cor Hitam Berkarat',
+              description: 'Straight heavy black cast iron pipe without any heat guard.',
+              visualTag: 'Straight • Heavy Cast Iron • No Guard',
+              isCorrect: false,
+              feedback: 'Salah: Pipa besi cor hitam lurus tanpa pelindung panas.'
+            },
+            {
+              id: 'oc5_c',
+              title: 'Knalpot C: Selang Air Fleksibel',
+              description: 'Flexible green plastic garden hose with brass nozzle.',
+              visualTag: 'Green Plastic • Garden Hose',
+              isCorrect: false,
+              feedback: 'Salah: Ini selang air taman, bukan knalpot motor.'
+            }
+          ]
         }
       ],
-      proactivePrompt: 'Look for aerodynamic mirrors, wide racing tires, and matte black paint. Which bike is it?'
+      proactivePrompt: 'Observe the adjectives carefully: dual aerodynamic mirrors, racing tires, and matte finish!'
     },
     chapter4: {
       title: 'Bab 4: Susun Paragraf Deskriptif',
       npcId: 'rio',
-      topic: 'The Muhiba Prototype Motorcycle',
+      topic: 'The Muhiba Racing Prototype',
       sentences: [
-        { id: 's1', section: 'Identification', order: 1, text: 'The Muhiba Prototype 150 is a custom racing motorcycle engineered by vocational automotive students.' },
-        { id: 's2', section: 'Description', order: 2, text: 'It features a streamlined matte black body with bold orange racing decals.' },
-        { id: 's3', section: 'Description', order: 3, text: 'Under the chassis, it carries a modified 150cc four-stroke engine paired with a lightweight titanium exhaust.' },
-        { id: 's4', section: 'Description', order: 4, text: 'This high-performance machine demonstrates outstanding fuel efficiency and superb cornering balance.' }
+        { id: 's1', section: 'Identification', order: 1, text: 'The Muhiba Racing Prototype is a customized lightweight motorcycle built by automotive students.' },
+        { id: 's2', section: 'Description', order: 2, text: 'It features a metallic orange aerodynamic fairing with matte black accents.' },
+        { id: 's3', section: 'Description', order: 3, text: 'Under the chassis, it is powered by an efficient 150cc four-stroke engine with high torque output.' },
+        { id: 's4', section: 'Description', order: 4, text: 'This prototype motorcycle demonstrates exceptional fuel efficiency, stability, and speed.' }
       ],
-      hint: 'Awali dengan mengenalkan motor tersebut (Identification), lalu gambarkan bodi luarnya, mesin dan knalpotnya, serta performanya (Description).',
-      explanation: 'Paragraf deskriptif dimulai dari pengenalan umum (Identification), kemudian diikuti oleh detail visual, komponen mesin, dan performa (Description).'
+      hint: 'Mulai dengan kalimat pengenalan nama dan status motor (Identification), diikuti tampilan bodi, mesin, dan performanya (Description).',
+      explanation: 'Susunan paragraf deskriptif dimulai dari pengenalan subjek secara umum (Identification), kemudian memaparkan detail ciri fisik dan karakteristik (Description).'
     },
     chapter5: {
       title: 'Bab 5: Proyek Akhir Mandiri (Project-Based Writing)',
       npcId: 'pakbimo',
-      promptTopic: 'Tuliskan 5 kalimat deskriptif dalam bahasa Inggris mengenai salah satu perkakas atau bagian kendaraan di bengkel otomotif (contoh: impact wrench, dongkrak hidrolik, helm keselamatan bengkel, atau cakram rem motor).',
+      promptTopic: 'Tuliskan 5 kalimat deskriptif dalam bahasa Inggris mengenai salah satu alat, mesin, atau kendaraan di bengkel otomotif (contoh: sepeda motor, kunci momen, dongkrak hidrolik, atau kompresor angin).',
       guidingQuestions: [
-        'What is the name of the tool or vehicle part? (Identification)',
-        'What are its dimensions or weight? (e.g. compact, heavy, long)',
-        'What color and material is it made of? (e.g. black, cast iron, tempered steel)',
-        'How does it operate or what special parts does it have? (e.g. sharp teeth, hydraulic valve)',
-        'Why is it vital for workshop safety or maintenance? (e.g. durable, essential, safe)'
+        'What is the name of the vehicle or machine? (Identification)',
+        'What is its size and shape? (e.g. heavy, aerodynamic, compact, curved)',
+        'What color and material is it made of? (e.g. metallic silver, steel, durable rubber)',
+        'What special parts does it have? (e.g. it has two mirrors, sharp gears, strong wheels)',
+        'Why is it useful for automotive mechanics? (e.g. powerful, efficient, indispensable)'
       ],
-      exampleVocab: ['heavy', 'durable', 'metallic', 'hydraulic', 'powerful', 'precision', 'pneumatic', 'sturdy'],
-      plotTwistTitle: 'Plot Twist Terungkap: The Surprise Final Examination!',
-      plotTwistTextEn: 'The prototype motorcycle was never stolen! Pak Bimo hid the bike behind the dynamometer test chamber on purpose as the ultimate practical exam for the semester! The clues and technical descriptions player read all along were carefully crafted by the senior automotive students. Pak Bimo smiles proudly: "When a technician writes clear descriptions, any teammate can follow and solve the mystery!"',
-      plotTwistTextId: 'Sepeda motor prototipe ternyata tidak pernah dicuri! Pak Bimo sengaja menyembunyikan motor tersebut di ruang uji emisi dinamometer sebagai ujian praktik akhir semester! Semua petunjuk dan deskripsi teknis yang kamu ikuti sebenarnya ditulis oleh siswa-siswa senior sendiri. Pak Bimo tersenyum bangga: "Saat teknisi menulis deskripsi yang jelas dan tepat, orang lain dapat memahaminya tanpa salah!"',
-      plotTwistMoral: 'Lesson Learned: Precise technical descriptions empower collaboration and clear instructions in the workplace.'
+      exampleVocab: ['aerodynamic', 'powerful', 'metallic', 'durable', 'efficient', 'heavy', 'sturdy', 'stainless'],
+      plotTwistTitle: 'Plot Twist Terungkap: The Surprise Final Exam!',
+      plotTwistTextEn: 'The prototype motorcycle was never lost! Pak Bimo intentionally hidden it in Dyno Bay 4 as a surprise practical examination. The descriptive clues you deciphered were technical notes written by senior students. By analyzing every adjective and physical attribute, you passed the final test with flying colors! Pak Bimo smiled proudly at your sharp observation.',
+      plotTwistTextId: 'Sepeda motor prototipe ternyata tidak pernah hilang! Pak Bimo sengaja memindahkannya ke Ruang Dyno Bay 4 sebagai ujian praktik observasi kejutan. Petunjuk deskriptif yang kamu baca selama ini adalah catatan teknis karya kakak kelasmu. Berkat ketelitianmu menganalisis kata sifat dan spesifikasi fisik, kamu lulus ujian akhir dengan gemilang!',
+      plotTwistMoral: 'Lesson Learned: Precision in descriptive observation is the hallmark of a master mechanic.'
     }
   },
 
-  // Simplified and Beginner-Friendly TJKT for 10th-grade beginners!
   tjkt: {
     id: 'tjkt',
     title: 'TEKNIK JARINGAN & KOMPUTER (TJKT)',
     subtitle: 'The Blinking Router (Router yang Berkedip)',
-    description: 'Wi-Fi sekolah sedang mati! Ikuti petunjuk mudah di Lab Jaringan bersama robot Pixel untuk menyalakan kembali internet.',
-    icon: '🌐',
+    description: 'Koneksi internet sekolah tiba-tiba putus sebelum ujian online! Bantu Bu Nisa dan Robot Pixel memecahkan misteri perangkat jaringan.',
+    icon: '💻',
     themeColor: '#7209B7',
     initialNpcId: 'bunisa',
     vocabList: [
-      { word: 'router', partOfSpeech: 'Noun', meaning: 'alat pemancar Wi-Fi internet', example: 'The router is on the clean desk.', category: 'Object' },
-      { word: 'cable', partOfSpeech: 'Noun', meaning: 'kabel jaringan', example: 'The blue cable is very long.', category: 'Object' },
-      { word: 'fast', partOfSpeech: 'Adjective', meaning: 'cepat', example: 'Our school Wi-Fi is very fast.', category: 'Quality' },
-      { word: 'small', partOfSpeech: 'Adjective', meaning: 'kecil / mungil', example: 'Pixel is a small friendly robot.', category: 'Size' },
-      { word: 'black', partOfSpeech: 'Adjective', meaning: 'hitam', example: 'The router has a black plastic case.', category: 'Color' },
-      { word: 'screen', partOfSpeech: 'Noun', meaning: 'layar monitor / tampilan', example: 'The computer screen is bright and clear.', category: 'Object' }
+      { word: 'router', partOfSpeech: 'Noun', meaning: 'perangkat pembagi jaringan Wi-Fi', example: 'The black router has three antennas.', category: 'Object' },
+      { word: 'blinking', partOfSpeech: 'Adjective', meaning: 'berkedip-kedip', example: 'The green LED indicator is blinking rapidly.', category: 'Quality' },
+      { word: 'fiber', partOfSpeech: 'Noun', meaning: 'serat optik (kabel kaca)', example: 'The yellow fiber cable connects to the server.', category: 'Material' },
+      { word: 'fast', partOfSpeech: 'Adjective', meaning: 'cepat', example: 'Our school enjoys a very fast internet connection.', category: 'Quality' },
+      { word: 'metallic', partOfSpeech: 'Adjective', meaning: 'berbahan logam', example: 'The server rack has a sturdy metallic frame.', category: 'Material' },
+      { word: 'compact', partOfSpeech: 'Adjective', meaning: 'ringkas / hemat tempat', example: 'This switch hub has a compact modern design.', category: 'Size' }
     ],
     chapter1: {
       title: 'Bab 1: Warm-up Chat (Obrolan Pemanasan Pemula)',
       npcId: 'bunisa',
-      instruction: 'Susun kata-kata mudah berikut menjadi kalimat deskripsi dasar: "This is a router. It is fast."',
-      contextId: 'Bu Nisa ingin kamu mengenali router Wi-Fi sekolah dengan kalimat yang sangat sederhana.',
+      instruction: 'Susun kartu kata berikut menjadi kalimat deskripsi pemula: "This is a [benda]. It is [sifat]."',
+      contextId: 'Bu Nisa ingin kamu mengenali router Wi-Fi lab sebelum memeriksa jaringan.',
       targetSentence: 'This is a router. It is fast.',
       jumbledWords: ['a', 'fast.', 'is', 'This', 'It', 'router.', 'is'],
-      explanation: 'Dalam Descriptive Text pemula, rumusnya sangat mudah: Kenalkan alat ("This is a router") + Sebutkan sifatnya ("It is fast").',
-      explanationId: 'Pola mudah: This is a [benda]. It is [kata sifat].',
-      proactivePrompt: 'What device gives us Wi-Fi? Is it slow or fast? Put the cards in order!',
+      explanation: 'Rumus kalimat deskripsi dasar untuk pemula: Identification ("This is a router") + Description ("It is fast").',
+      explanationId: 'Pola kalimat dasar: kenalkan bendanya (Identification), lalu sebutkan sifat utamanya (Description).',
+      proactivePrompt: 'Look at the Wi-Fi unit on the table! Is it slow or fast? Arrange the word cards to describe it!',
       proactiveHintWords: ['This', 'is', 'a', 'router.', 'It', 'is', 'fast.']
     },
     chapter2: {
-      title: 'Bab 2: Detail Benda (10 Latihan Mudah TJKT)',
+      title: 'Bab 2: Detail Benda (10 Latihan Adjective Order Pemula)',
       npcId: 'pixel',
-      instruction: 'Jawab 10 soal pilihan mudah mengenai kabel, komputer, dan router (Ukuran ➔ Warna ➔ Bahan).',
+      instruction: 'Jawab 10 soal acak yang mudah dan sederhana mengenai urutan kata sifat perangkat jaringan komputer.',
       quizItems: TJKT_CHAPTER2_QUIZ,
-      explanation: 'Urutan kata sifat mudah: Ukuran (long/small) ➔ Warna (blue/black) ➔ Bahan (copper/plastic) ➔ Kata Benda (cable/router)!',
-      proactivePrompt: 'Beep! Which comes first for this cable: length (long), color (blue), or material (copper)?'
+      explanation: 'Aturan sederhana urutan kata sifat: Ukuran (Size) ➔ Warna (Color) ➔ Bahan (Material) ➔ Nama Benda (Noun)!',
+      proactivePrompt: 'Size comes first, then Color, then Material! What is the correct word order for network cables?'
     },
     chapter3: {
-      title: 'Bab 3: Kasus Petunjuk (Teka-Teki Mudah Pemula)',
+      title: 'Bab 3: Kasus Petunjuk (5 Problem-Based Detective Cases)',
       npcId: 'bunisa',
-      caseDescriptionEn: 'Bu Nisa and Pixel found a clue about the disconnected Wi-Fi box on the laboratory table.',
-      caseDescriptionId: 'Bu Nisa dan Pixel menemukan catatan petunjuk tentang kotak Wi-Fi yang mati di meja lab.',
-      witnessStatementEn: '"The missing Wi-Fi box is a small black plastic box with 2 antennas and glowing green lights."',
-      witnessStatementId: '"Kotak Wi-Fi yang dicari adalah kotak plastik hitam kecil dengan 2 antena dan lampu hijau menyala."',
-      question: 'Which device on the lab desk matches this easy description?',
-      suspects: [
+      cases: [
         {
-          id: 'device_a',
-          title: 'Perangkat A: Mesin Printer Putih Besar',
-          description: 'A large white printer with paper tray and no antennas.',
-          visualTag: 'Large • White • Printer • No Antennas',
-          isCorrect: false,
-          feedback: 'Salah: Ini adalah printer putih besar, bukan router plastik hitam dengan 2 antena!'
+          id: 1,
+          title: 'Kasus 1: Router Wi-Fi Utama yang Berkedip',
+          caseDescriptionEn: 'Bu Nisa noticed a strange Wi-Fi device placed on top of Rack 3.',
+          caseDescriptionId: 'Bu Nisa melihat perangkat Wi-Fi tak dikenal diletakkan di atas Rak 3.',
+          witnessStatementEn: '"The target router is a small black plastic router with three green antennas and a blinking blue LED indicator."',
+          witnessStatementId: '"Router sasaran adalah router plastik hitam kecil dengan tiga antena hijau dan lampu indikator LED biru berkedip."',
+          question: 'Which router matches the exact description?',
+          suspects: [
+            {
+              id: 'tc1_a',
+              title: 'Router A: Router Putih Tanpa Antena',
+              description: 'Large white metal modem box with no antennas and a solid red light.',
+              visualTag: 'Large • White Metal • No Antennas • Red Light',
+              isCorrect: false,
+              feedback: 'Salah: Router ini berwarna putih tanpa antena dan lampu merah menyala tetap.'
+            },
+            {
+              id: 'tc1_b',
+              title: 'Router B: Router Hitam Tiga Antena Hijau',
+              description: 'Small black plastic router with three green antennas and a blinking blue LED indicator.',
+              visualTag: 'Small Black Plastic • Three Green Antennas • Blinking Blue LED',
+              isCorrect: true,
+              feedback: 'Tepat sekali! Warna hitam, tiga antena hijau, dan lampu LED biru berkedip sesuai 100%!'
+            },
+            {
+              id: 'tc1_c',
+              title: 'Router C: Kotak Kayu Jadul',
+              description: 'Old wooden radio with speaker holes.',
+              visualTag: 'Old Wood • Antique Radio',
+              isCorrect: false,
+              feedback: 'Salah: Ini adalah radio kayu antik, bukan perangkat router Wi-Fi.'
+            }
+          ]
         },
         {
-          id: 'device_b',
-          title: 'Perangkat B: Wi-Fi Router Hitam (Target)',
-          description: 'A small black plastic box equipped with 2 antennas and bright green lights.',
-          visualTag: 'Small • Black • 2 Antennas • Green Lights',
-          isCorrect: true,
-          feedback: 'Benar sekali! Ciri fisiknya (small, black plastic, 2 antennas, green lights) cocok sempurna dengan petunjuk!'
+          id: 2,
+          title: 'Kasus 2: Kabel Jaringan LAN Laboratorium',
+          caseDescriptionEn: 'The lab technician needs the primary backbone network cable for the server.',
+          caseDescriptionId: 'Teknisi lab memerlukan kabel jaringan utama untuk menghubungkan server.',
+          witnessStatementEn: '"It is a long blue copper UTP cable with transparent plastic RJ-45 modular connectors on both ends."',
+          witnessStatementId: '"Kabel tersebut adalah kabel UTP tembaga biru panjang dengan konektor plastik transparan RJ-45 di kedua ujungnya."',
+          question: 'Which cable in the tool box is the primary LAN cable?',
+          suspects: [
+            {
+              id: 'tc2_a',
+              title: 'Kabel A: Kabel LAN Biru Tembaga',
+              description: 'Long blue copper UTP cable with transparent plastic RJ-45 modular connectors on both ends.',
+              visualTag: 'Long • Blue Copper • Transparent RJ-45 Connectors',
+              isCorrect: true,
+              feedback: 'Benar sekali! Kabel UTP tembaga biru panjang dengan konektor RJ-45 transparan cocok sempurna.'
+            },
+            {
+              id: 'tc2_b',
+              title: 'Kabel B: Kabel Listrik Kuning Pendek',
+              description: 'Short thick yellow electrical cord with three-prong wall plug.',
+              visualTag: 'Short • Yellow Electrical Cord',
+              isCorrect: false,
+              feedback: 'Salah: Ini adalah kabel listrik kabel colokan, bukan kabel LAN.'
+            },
+            {
+              id: 'tc2_c',
+              title: 'Kabel C: Kabel Headset Hitam Tipis',
+              description: 'Thin black audio headphone wire with 3.5mm jack.',
+              visualTag: 'Thin Black • Audio Jack',
+              isCorrect: false,
+              feedback: 'Salah: Ini kabel audio headset tipis, bukan kabel jaringan data.'
+            }
+          ]
         },
         {
-          id: 'device_c',
-          title: 'Perangkat C: Kursi Lab Merah',
-          description: 'A red plastic chair with four metal legs.',
-          visualTag: 'Red Chair • 4 Legs',
-          isCorrect: false,
-          feedback: 'Salah: Ini adalah kursi duduk, bukan perangkat Wi-Fi!'
+          id: 3,
+          title: 'Kasus 3: Switch Hub Server Lab Komputer',
+          caseDescriptionEn: 'A high-speed distributor switch hub must be plugged into the main rack.',
+          caseDescriptionId: 'Switch hub pembagi data berkecepatan tinggi harus dipasang ke rak utama.',
+          witnessStatementEn: '"The technician is seeking a wide grey metallic switch hub with 24 glowing green gigabit ethernet ports."',
+          witnessStatementId: '"Teknisi mencari switch hub logam abu-abu lebar dengan 24 port ethernet gigabit hijau menyala."',
+          question: 'Which device is the 24-port switch hub?',
+          suspects: [
+            {
+              id: 'tc3_a',
+              title: 'Perangkat A: USB Hub Mini 4 Port',
+              description: 'Tiny white plastic 4-port USB hub for laptops.',
+              visualTag: 'Tiny White • 4-Port USB',
+              isCorrect: false,
+              feedback: 'Salah: Ini adalah USB hub mini plastik, bukan switch hub rackmount 24 port.'
+            },
+            {
+              id: 'tc3_b',
+              title: 'Perangkat B: Switch Hub Logam 24 Port',
+              description: 'Wide grey metallic switch hub with 24 glowing green gigabit ethernet ports.',
+              visualTag: 'Wide • Grey Metallic • 24 Glowing Green Ports',
+              isCorrect: true,
+              feedback: 'Tepat! Logam abu-abu lebar dengan 24 port ethernet hijau menyala sesuai 100%!'
+            },
+            {
+              id: 'tc3_c',
+              title: 'Perangkat C: Kotak Harddisk Eksternal',
+              description: 'Small rectangular black portable hard drive with one cable.',
+              visualTag: 'Black Portable HDD',
+              isCorrect: false,
+              feedback: 'Salah: Ini adalah harddisk eksternal portabel.'
+            }
+          ]
+        },
+        {
+          id: 4,
+          title: 'Kasus 4: Tang Crimping Tool Teknisi Jaringan',
+          caseDescriptionEn: 'A student needs the crimping tool to terminate network cable ends.',
+          caseDescriptionId: 'Siswa memerlukan tang crimping untuk memasang konektor ujung kabel jaringan.',
+          witnessStatementEn: '"Find a sturdy blue-and-black steel crimping tool with a sharp cutting blade and rubberized non-slip handles."',
+          witnessStatementId: '"Temukan tang crimping baja biru-hitam yang kokoh dengan bilah pemotong tajam dan pegangan karet antiselip."',
+          question: 'Which tool on the shelf is the crimping tool?',
+          suspects: [
+            {
+              id: 'tc4_a',
+              title: 'Alat A: Tang Crimping Baja Biru-Hitam',
+              description: 'Sturdy blue-and-black steel crimping tool with sharp cutting blade and rubberized non-slip handles.',
+              visualTag: 'Sturdy • Blue-and-Black Steel • Sharp Blade • Non-slip Grip',
+              isCorrect: true,
+              feedback: 'Tepat sekali! Tang baja biru-hitam dengan pemotong tajam dan pegangan karet cocok sempurna.'
+            },
+            {
+              id: 'tc4_b',
+              title: 'Alat B: Gunting Jahit Berkarat',
+              description: 'Old rusty fabric sewing scissors with silver loops.',
+              visualTag: 'Rusty Sewing Scissors',
+              isCorrect: false,
+              feedback: 'Salah: Ini gunting kain tua, bukan alat crimping kabel jaringan.'
+            },
+            {
+              id: 'tc4_c',
+              title: 'Alat C: Tempat Lakban Plastik',
+              description: 'Red plastic tape dispenser with serrated teeth.',
+              visualTag: 'Plastic Tape Dispenser',
+              isCorrect: false,
+              feedback: 'Salah: Ini adalah alat pemotong isolasi/lakban.'
+            }
+          ]
+        },
+        {
+          id: 5,
+          title: 'Kasus 5: Flashdisk Berisi Konfigurasi Jaringan',
+          caseDescriptionEn: 'The automated configuration backup is stored inside an emergency flash drive.',
+          caseDescriptionId: 'Cadangan konfigurasi otomatis tersimpan dalam flashdisk darurat.',
+          witnessStatementEn: '"The flash drive is a tiny silver metallic USB drive attached to a bright red woven Muhiba lanyard."',
+          witnessStatementId: '"Flashdisk tersebut adalah USB logam perak mungil yang terpasang pada tali lanyard tenun Muhiba merah cerah."',
+          question: 'Which flash drive is the configuration backup drive?',
+          suspects: [
+            {
+              id: 'tc5_a',
+              title: 'Drive A: Flashdisk Logam Perak Tali Merah',
+              description: 'Tiny silver metallic USB drive attached to a bright red woven Muhiba lanyard.',
+              visualTag: 'Tiny Silver Metallic • Red Woven Muhiba Lanyard',
+              isCorrect: true,
+              feedback: 'Luar biasa! Flashdisk logam perak mungil dengan lanyard merah Muhiba berhasil ditemukan!'
+            },
+            {
+              id: 'tc5_b',
+              title: 'Drive B: Disket Hitam Jadul',
+              description: 'Square black magnetic 3.5-inch floppy disk from 1995.',
+              visualTag: 'Black Floppy Disk',
+              isCorrect: false,
+              feedback: 'Salah: Ini disket magnetik kuno, bukan USB flash drive.'
+            },
+            {
+              id: 'tc5_c',
+              title: 'Drive C: Gantungan Kunci Kayu Bulat',
+              description: 'Circular brown wooden souvenir keychain without any memory chip.',
+              visualTag: 'Wooden Souvenir Keychain',
+              isCorrect: false,
+              feedback: 'Salah: Ini hanya gantungan kunci kayu suvenir.'
+            }
+          ]
         }
       ],
-      proactivePrompt: 'Look for a small black plastic box with two antennas and green lights!'
+      proactivePrompt: 'Notice the simple adjectives: black plastic casing, green antennas, and blinking lights!'
     },
     chapter4: {
-      title: 'Bab 4: Susun Paragraf Deskriptif Mudah',
+      title: 'Bab 4: Susun Paragraf Deskriptif Pemula',
       npcId: 'bunisa',
-      topic: 'The School Wi-Fi Router',
+      topic: 'The School Core Network Router',
       sentences: [
-        { id: 's1', section: 'Identification', order: 1, text: 'This is our school Wi-Fi router in the TJKT laboratory.' },
-        { id: 's2', section: 'Description', order: 2, text: 'It is a small black plastic box with two antennas on top.' },
-        { id: 's3', section: 'Description', order: 3, text: 'It has small green LED lights that blink when connected.' },
-        { id: 's4', section: 'Description', order: 4, text: 'It provides fast and reliable internet connection for all students.' }
+        { id: 's1', section: 'Identification', order: 1, text: 'The core network router is a vital communication device in the TJKT computer laboratory.' },
+        { id: 's2', section: 'Description', order: 2, text: 'It has a compact black plastic body with three flexible green antennas.' },
+        { id: 's3', section: 'Description', order: 3, text: 'On the front panel, bright green and blue LED lights blink rapidly during data transfer.' },
+        { id: 's4', section: 'Description', order: 4, text: 'This router provides fast and stable internet access for all teachers and students.' }
       ],
-      hint: 'Mulai dari kalimat pengenal nama alat (Identification: "This is our school Wi-Fi router"), lalu bodi hitamnya, lampu hijaunya, dan fungsinya.',
-      explanation: 'Paragraf deskriptif mudah: Identification (kalimat 1) ➔ Description bentuk fisik (kalimat 2-3) ➔ Fungsi manfaat (kalimat 4).'
+      hint: 'Mulai dengan kalimat nama alat (Identification), lalu fisik dan antena (Description 1), lampu LED (Description 2), dan fungsinya (Description 3).',
+      explanation: 'Paragraf deskriptif dimulai dari pengenalan alat (Identification), kemudian diikuti kalimat-kalimat yang merinci fitur fisik dan fungsinya (Description).'
     },
     chapter5: {
-      title: 'Bab 5: Proyek Akhir Mandiri (5 Kalimat Mudah)',
-      npcId: 'pixel',
-      promptTopic: 'Tuliskan 5 kalimat deskriptif bahasa Inggris yang mudah mengenai komputer atau robot Pixel di Lab TJKT (contoh: komputer, layar monitor, kabel LAN, atau robot Pixel).',
+      title: 'Bab 5: Proyek Akhir Mandiri (Project-Based Writing)',
+      npcId: 'bunisa',
+      promptTopic: 'Tuliskan 5 kalimat deskriptif dalam bahasa Inggris mengenai salah satu perangkat di lab komputer TJKT (contoh: router Wi-Fi, kabel LAN, komputer server, monitor, atau switch hub).',
       guidingQuestions: [
-        '1. What is the object? (e.g. "This is our lab computer.")',
-        '2. What is its size or shape? (e.g. "It is compact and rectangular.")',
-        '3. What color is it? (e.g. "It is black and grey.")',
-        '4. What special parts does it have? (e.g. "It has a bright screen and keyboard.")',
-        '5. Why is it useful for students? (e.g. "It helps students study internet.")'
+        'What is the name of the device? (Identification)',
+        'What is its size and shape? (e.g. small, compact, rectangular, wide)',
+        'What color and material is it made of? (e.g. black plastic, blue copper, metallic grey)',
+        'What special features does it have? (e.g. it has blinking lights, three antennas)',
+        'Why is it useful for network students? (e.g. fast, reliable, indispensable)'
       ],
-      exampleVocab: ['small', 'black', 'fast', 'clean', 'bright', 'modern', 'digital', 'helpful'],
-      plotTwistTitle: 'Plot Twist Terungkap: The Friendly Robot Pixel!',
-      plotTwistTextEn: 'The mystery Wi-Fi broadcaster was Pixel itself! Pixel is a friendly assistant robot built by senior TJKT students. When a sudden power surge wiped its internal description file, Pixel panicked because it forgot its own physical identity! Now that you accurately described its small silver body and blue eyes, Pixel happily reconnects the school Wi-Fi at blazing speed!',
-      plotTwistTextId: 'Penyiar Wi-Fi misterius ternyata adalah robot Pixel itu sendiri! Pixel adalah robot asisten ramah yang dirakit oleh kakak kelas TJKT. Saat lonjakan listrik sempat menghapus file profilnya, Pixel panik karena lupa ciri fisik dirinya sendiri! Berkat deskripsimu yang tepat dan mudah dipahami, Pixel kini mengingat jati dirinya dan menyalakan kembali Wi-Fi sekolah!',
-      plotTwistMoral: 'Lesson Learned: Descriptive language gives identity, clarity, and life to the world around us.'
+      exampleVocab: ['compact', 'blinking', 'fast', 'reliable', 'metallic', 'digital', 'sturdy', 'clean'],
+      plotTwistTitle: 'Plot Twist Terungkap: The Helpful AI Assistant!',
+      plotTwistTextEn: 'The internet connection was never broken! Pixel, our school AI lab assistant robot, had briefly rerouted all network traffic into an isolated high-speed firewall channel to protect the school server from an external spam surge. Pixel was testing our new first-year students to see if they could identify network components through English descriptions. Pixel cheered: "BEEP! You passed the descriptive challenge brilliantly!"',
+      plotTwistTextId: 'Koneksi internet sekolah ternyata tidak pernah rusak! Pixel, robot asisten AI lab sekolah, sengaja mengalihkan lalu lintas jaringan ke saluran firewall berkecepatan tinggi demi melindungi server sekolah dari banjir spam luar. Pixel ingin menguji apakah siswa baru kelas X mampu mengidentifikasi komponen jaringan dengan bahasa Inggris yang akurat. Pixel bersorak riang: "BEEP! Kamu berhasil menyelesaikan tantangan deskripsi dengan gemilang!"',
+      plotTwistMoral: 'Lesson Learned: Clear technical descriptions turn complex digital mysteries into solvable puzzles.'
     }
   }
 };

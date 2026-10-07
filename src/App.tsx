@@ -11,11 +11,13 @@ import { MapModal, QuestModal, VocabModal, GuideModal } from './components/Modal
 import { ResultScreen } from './components/ResultScreen';
 import { VocabMysteryModal } from './components/VocabMysteryModal';
 import { BatangTourModal } from './components/BatangTourModal';
+import { GrammarPracticeModal } from './components/GrammarPracticeModal';
 
 const SAVE_KEY = 'muhiba_english_quest_save_v1';
 
 const INITIAL_SCORE: GameScore = {
   vocabXp: 0,
+  grammarXp: 0,
   batangTourXp: 0,
   ch1: 0,
   ch2: 0,
@@ -66,6 +68,10 @@ export default function App() {
     return savedGame ? savedGame.vocabMysterySolved : false;
   });
 
+  const [grammarPracticeCompleted, setGrammarPracticeCompleted] = useState<boolean>(() => {
+    return savedGame ? !!savedGame.grammarPracticeCompleted : false;
+  });
+
   const [batangTourCompleted, setBatangTourCompleted] = useState<boolean>(() => {
     return savedGame ? savedGame.batangTourCompleted : false;
   });
@@ -76,6 +82,7 @@ export default function App() {
 
   // Modals & Failures State
   const [showVocabMysteryModal, setShowVocabMysteryModal] = useState(false);
+  const [showGrammarPracticeModal, setShowGrammarPracticeModal] = useState(false);
   const [activeBatangStopIndex, setActiveBatangStopIndex] = useState<number | null>(null);
   const [restrictedAlert, setRestrictedAlert] = useState<{ title: string; message: string } | null>(null);
   const [failedMissionReason, setFailedMissionReason] = useState<string | null>(null);
@@ -109,6 +116,7 @@ export default function App() {
   const totalXp = useMemo(() => {
     return (
       (score.vocabXp || 0) +
+      (score.grammarXp || 0) +
       (score.batangTourXp || 0) +
       (score.ch1 || 0) +
       (score.ch2 || 0) +
@@ -129,6 +137,7 @@ export default function App() {
         score,
         studentWritingText,
         vocabMysterySolved,
+        grammarPracticeCompleted,
         batangTourCompleted,
         batangTourStep,
         lastSavedAt: Date.now()
@@ -138,14 +147,18 @@ export default function App() {
     } catch (e) {
       console.warn('Failed to save game:', e);
     }
-  }, [profile, currentChapter, score, studentWritingText, vocabMysterySolved, batangTourCompleted, batangTourStep, gameState]);
+  }, [profile, currentChapter, score, studentWritingText, vocabMysterySolved, grammarPracticeCompleted, batangTourCompleted, batangTourStep, gameState]);
 
-  // Initial Vocab Mystery trigger
+  // Initial Sequenced Triggers: Vocab Mystery -> Grammar Practice
   useEffect(() => {
-    if (gameState === 'playing' && !vocabMysterySolved) {
-      setShowVocabMysteryModal(true);
+    if (gameState === 'playing') {
+      if (!vocabMysterySolved) {
+        setShowVocabMysteryModal(true);
+      } else if (!grammarPracticeCompleted) {
+        setShowGrammarPracticeModal(true);
+      }
     }
-  }, [gameState, vocabMysterySolved]);
+  }, [gameState, vocabMysterySolved, grammarPracticeCompleted]);
 
   // Target NPC for HUD and Compass
   const currentTargetNpc = useMemo(() => {
@@ -173,11 +186,13 @@ export default function App() {
     setScore({ ...INITIAL_SCORE });
     setStudentWritingText('');
     setVocabMysterySolved(false);
+    setGrammarPracticeCompleted(false);
     setBatangTourCompleted(false);
     setBatangTourStep(0);
     setFailedMissionReason(null);
     setGameState('playing');
     setShowVocabMysteryModal(true);
+    setShowGrammarPracticeModal(false);
   };
 
   // Resume game handler
@@ -188,6 +203,7 @@ export default function App() {
       setScore(savedGame.score);
       setStudentWritingText(savedGame.studentWritingText);
       setVocabMysterySolved(savedGame.vocabMysterySolved);
+      setGrammarPracticeCompleted(savedGame.grammarPracticeCompleted || false);
       setBatangTourCompleted(savedGame.batangTourCompleted);
       setBatangTourStep(savedGame.batangTourStep);
       setFailedMissionReason(null);
@@ -218,8 +234,11 @@ export default function App() {
     setScore({ ...INITIAL_SCORE });
     setStudentWritingText('');
     setVocabMysterySolved(false);
+    setGrammarPracticeCompleted(false);
     setBatangTourCompleted(false);
     setBatangTourStep(0);
+    setShowVocabMysteryModal(false);
+    setShowGrammarPracticeModal(false);
     setActiveBatangStopIndex(null);
     setActiveChapterModal(null);
     setDialogueState(null);
@@ -228,12 +247,21 @@ export default function App() {
     setGameState('title');
   };
 
-  // Completed Vocab Mystery
+  // Completed Vocab Mystery -> Launch Grammar Practice next!
   const handleCompleteVocabMystery = (xpEarned: number) => {
     soundManager.playLevelUp();
     setScore(prev => ({ ...prev, vocabXp: xpEarned }));
     setVocabMysterySolved(true);
     setShowVocabMysteryModal(false);
+    setShowGrammarPracticeModal(true);
+  };
+
+  // Completed Grammar Practice (It is / It has / There is / There are)
+  const handleCompleteGrammarPractice = (xpEarned: number) => {
+    soundManager.playLevelUp();
+    setScore(prev => ({ ...prev, grammarXp: xpEarned }));
+    setGrammarPracticeCompleted(true);
+    setShowGrammarPracticeModal(false);
   };
 
   // Completed a Batang tour step
@@ -456,6 +484,14 @@ export default function App() {
           {showVocabMysteryModal && (
             <VocabMysteryModal
               onCompleted={handleCompleteVocabMystery}
+            />
+          )}
+
+          {/* Initial Grammar Practice Modal (It is / It has / There is / There are) */}
+          {showGrammarPracticeModal && (
+            <GrammarPracticeModal
+              onCompleted={handleCompleteGrammarPractice}
+              onMissionFailed={handleMissionFailed}
             />
           )}
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { MajorStory, Chapter2QuizItem } from '../types';
+import { MajorStory, Chapter2QuizItem, Chapter3Case } from '../types';
 import { soundManager } from '../soundSystem';
 
 interface ChapterModalProps {
@@ -33,8 +33,9 @@ export const ChapterModal: React.FC<ChapterModalProps> = ({
   const [ch1ErrorCount, setCh1ErrorCount] = useState(0);
   const [ch1Feedback, setCh1Feedback] = useState<{ isSuccess: boolean; text: string } | null>(null);
 
-  // Bab 2 State: 10 Quiz Questions
+  // Bab 2 State: 10 Quiz Questions with Randomized Options
   const ch2 = story.chapter2;
+  const [shuffledQuizItems, setShuffledQuizItems] = useState<Chapter2QuizItem[]>([]);
   const [quizIndex, setQuizIndex] = useState(0);
   const [selectedQuizOption, setSelectedQuizOption] = useState<string | null>(null);
   const [isQuizOptionLocked, setIsQuizOptionLocked] = useState(false);
@@ -42,11 +43,14 @@ export const ChapterModal: React.FC<ChapterModalProps> = ({
   const [quizFeedback, setQuizFeedback] = useState<{ isSuccess: boolean; text: string } | null>(null);
   const [quizFinished, setQuizFinished] = useState(false);
 
-  // Bab 3 State: Case Suspect Match
+  // Bab 3 State: 5 Distinct Detective Cases!
   const ch3 = story.chapter3;
+  const [caseIndex, setCaseIndex] = useState(0); // 0 to 4
+  const [caseScore, setCaseScore] = useState(0);
   const [selectedSuspectId, setSelectedSuspectId] = useState<string | null>(null);
   const [isSuspectLocked, setIsSuspectLocked] = useState(false);
   const [ch3Feedback, setCh3Feedback] = useState<{ isSuccess: boolean; text: string } | null>(null);
+  const [allCasesFinished, setAllCasesFinished] = useState(false);
 
   // Bab 4 State: Paragraph Ordering
   const ch4 = story.chapter4;
@@ -63,12 +67,18 @@ export const ChapterModal: React.FC<ChapterModalProps> = ({
   const [detectedAdjectives, setDetectedAdjectives] = useState<string[]>([]);
   const [ch5Feedback, setCh5Feedback] = useState<string | null>(null);
 
-  // Setup on mount
+  // Setup on mount or chapter change
   useEffect(() => {
     if (chapterIndex === 1) {
       setAvailableWords(ch1.jumbledWords.map((word, idx) => ({ id: `${word}-${idx}`, word })));
       setPlacedWords([]);
     } else if (chapterIndex === 2) {
+      // Shuffling all options across all 10 questions!
+      const randomized = ch2.quizItems.map(item => ({
+        ...item,
+        options: [...item.options].sort(() => Math.random() - 0.5)
+      }));
+      setShuffledQuizItems(randomized);
       setQuizIndex(0);
       setQuizScore(0);
       setSelectedQuizOption(null);
@@ -76,13 +86,17 @@ export const ChapterModal: React.FC<ChapterModalProps> = ({
       setQuizFeedback(null);
       setQuizFinished(false);
     } else if (chapterIndex === 3) {
+      setCaseIndex(0);
+      setCaseScore(0);
       setSelectedSuspectId(null);
       setIsSuspectLocked(false);
+      setCh3Feedback(null);
+      setAllCasesFinished(false);
     } else if (chapterIndex === 4) {
       const shuffled = [...ch4.sentences].sort(() => Math.random() - 0.5);
       setOrderedSentences(shuffled);
     }
-  }, [chapterIndex, ch1, ch3, ch4]);
+  }, [chapterIndex, ch1, ch2, ch3, ch4]);
 
   // Bab 1 Card Handler
   const handleWordClick = (item: { id: string; word: string }) => {
@@ -132,10 +146,10 @@ export const ChapterModal: React.FC<ChapterModalProps> = ({
   };
 
   // Bab 2: 10 Soal Quiz Handler
-  const currentQuizItem: Chapter2QuizItem | undefined = ch2.quizItems[quizIndex];
+  const currentQuizItem: Chapter2QuizItem | undefined = shuffledQuizItems[quizIndex];
 
   const handleSelectQuizOption = (opt: string) => {
-    // Cannot change once answer is submitted/locked
+    // "Jawaban yang sudah dijawab tidak bisa dijawab lagi"
     if (isQuizOptionLocked) return;
     soundManager.playTap();
     setSelectedQuizOption(opt);
@@ -165,7 +179,7 @@ export const ChapterModal: React.FC<ChapterModalProps> = ({
 
   const handleNextQuizQuestion = () => {
     soundManager.playTap();
-    if (quizIndex + 1 < ch2.quizItems.length) {
+    if (quizIndex + 1 < shuffledQuizItems.length) {
       setQuizIndex(prev => prev + 1);
       setSelectedQuizOption(null);
       setIsQuizOptionLocked(false);
@@ -178,24 +192,35 @@ export const ChapterModal: React.FC<ChapterModalProps> = ({
       if (quizScore < 6) {
         window.setTimeout(() => {
           onMissionFailed(`Skor Bab 2 tidak memenuhi batas kelulusan minimal (${quizScore}/10 benar, minimal 6).`);
-        }, 3000);
+        }, 2800);
       }
     }
   };
 
-  // Bab 3 Handler
-  const handleCheckCh3 = () => {
-    if (!selectedSuspectId || isSuspectLocked) return;
-    const suspect = ch3.suspects.find(s => s.id === selectedSuspectId);
+  // Bab 3: 5 Cases Handler
+  const currentCase: Chapter3Case | undefined = ch3.cases[caseIndex];
+
+  const handleSelectSuspect = (suspectId: string) => {
+    // "Jawaban yang sudah dijawab tidak bisa dijawab lagi"
+    if (isSuspectLocked) return;
+    soundManager.playTap();
+    setSelectedSuspectId(suspectId);
+    setCh3Feedback(null);
+  };
+
+  const handleCheckCaseAnswer = () => {
+    if (!currentCase || !selectedSuspectId || isSuspectLocked) return;
+    const suspect = currentCase.suspects.find(s => s.id === selectedSuspectId);
     if (!suspect) return;
 
-    setIsSuspectLocked(true); // Lock answer!
+    setIsSuspectLocked(true); // Lock choice!
 
     if (suspect.isCorrect) {
       soundManager.playCorrect();
+      setCaseScore(prev => prev + 1);
       setCh3Feedback({
         isSuccess: true,
-        text: `Tepat sekali (+30 XP)! ${suspect.feedback}`
+        text: `Tepat sekali (+10 XP)! ${suspect.feedback}`
       });
     } else {
       soundManager.playWrong();
@@ -205,8 +230,22 @@ export const ChapterModal: React.FC<ChapterModalProps> = ({
       });
 
       window.setTimeout(() => {
-        onMissionFailed(`Salah menuduh tersangka pada Bab 3: ${suspect.feedback}`);
-      }, 2500);
+        onMissionFailed(`Salah menuduh pada Kasus ${caseIndex + 1} Bab 3: ${suspect.feedback}`);
+      }, 2800);
+    }
+  };
+
+  const handleNextCase = () => {
+    soundManager.playTap();
+    if (caseIndex + 1 < ch3.cases.length) {
+      setCaseIndex(prev => prev + 1);
+      setSelectedSuspectId(null);
+      setIsSuspectLocked(false);
+      setCh3Feedback(null);
+    } else {
+      // Completed all 5 cases successfully!
+      soundManager.playLevelUp();
+      setAllCasesFinished(true);
     }
   };
 
@@ -261,101 +300,111 @@ export const ChapterModal: React.FC<ChapterModalProps> = ({
       .split(/(?<=[.?!])\s+/)
       .map(s => s.trim())
       .filter(s => s.length > 5);
-
     setDetectedSentences(rawSentences);
 
-    const lower = writingText.toLowerCase();
-    const foundAdjs = COMMON_ADJECTIVES.filter(adj => {
-      const regex = new RegExp(`\\b${adj}\\b`, 'i');
-      return regex.test(lower);
-    });
+    const words = writingText.toLowerCase().replace(/[^a-z\s]/g, '').split(/\s+/);
+    const foundAdjs = Array.from(new Set(words.filter(w => COMMON_ADJECTIVES.includes(w))));
     setDetectedAdjectives(foundAdjs);
   }, [writingText, chapterIndex]);
 
   const handleCheckCh5 = () => {
     if (detectedSentences.length < 5) {
       soundManager.playWrong();
-      setCh5Feedback(`Kamu baru menulis ${detectedSentences.length} kalimat. Syarat proyek: minimal 5 kalimat deskripsi lengkap.`);
+      setCh5Feedback(`Teksmu baru memiliki ${detectedSentences.length} kalimat. Tambahkan hingga minimal 5 kalimat deskriptif!`);
       return;
     }
 
-    if (detectedAdjectives.length < 3) {
-      soundManager.playWrong();
-      setCh5Feedback(`Baru ditemukan ${detectedAdjectives.length} kata sifat (${detectedAdjectives.join(', ') || 'belum ada'}). Tambahkan kata sifat deskriptif (contoh: clean, modern, powerful, red, large).`);
-      return;
-    }
-
-    const badPunctuation = detectedSentences.some(s => !/[.?!]$/.test(s));
-    if (badPunctuation) {
+    const allHavePunctuation = detectedSentences.every(s => /[.?!]$/.test(s));
+    if (!allHavePunctuation) {
       soundManager.playWrong();
       setCh5Feedback('Pastikan setiap kalimat diakhiri tanda titik (.) atau tanda baca yang tepat.');
       return;
     }
 
+    const allCapitalized = detectedSentences.every(s => /^[A-Z]/.test(s));
+    if (!allCapitalized) {
+      soundManager.playWrong();
+      setCh5Feedback('Awal setiap kalimat wajib menggunakan huruf kapital (huruf besar).');
+      return;
+    }
+
+    if (detectedAdjectives.length < 3) {
+      soundManager.playWrong();
+      setCh5Feedback(`Baru ditemukan ${detectedAdjectives.length} kata sifat. Tambahkan kata sifat seperti: clean, fast, modern, metallic, sturdy, dll.`);
+      return;
+    }
+
     soundManager.playLevelUp();
-    setCh5Feedback('Sempurna (+50 XP)! Teks deskriptifmu memenuhi standar Kurikulum Merdeka.');
-    onCompleteChapter(5, 50, writingText);
+    onCompleteChapter(5, 50, writingText.trim());
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/75 flex items-center justify-center p-3 sm:p-5 backdrop-blur-xs overflow-y-auto">
-      <div className="retro-box w-full max-w-2xl max-h-[92dvh] flex flex-col text-[#43281C] animate-in fade-in zoom-in-95 duration-150 my-auto">
-        {/* Header Bar */}
-        <div className="flex items-center justify-between border-b-3 border-[#43281C] p-3 sm:p-4 bg-[#FFE8D6] rounded-t-[14px]">
-          <div className="flex items-center gap-2">
-            <span className="font-pixel text-xs sm:text-sm text-[#D62828] bg-white px-2 py-1 rounded border-2 border-[#43281C]">
-              BAB {chapterIndex}
-            </span>
-            <h2 className="font-bold text-xs sm:text-sm text-[#43281C] line-clamp-1">
-              {chapterIndex === 1 && ch1.title}
-              {chapterIndex === 2 && ch2.title}
-              {chapterIndex === 3 && ch3.title}
-              {chapterIndex === 4 && ch4.title}
-              {chapterIndex === 5 && ch5.title}
-            </h2>
+    <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-3 sm:p-5 animate-in fade-in duration-200">
+      <div className="retro-box max-w-xl w-full p-4 sm:p-6 text-[#43281C] max-h-[92dvh] flex flex-col justify-between overflow-y-auto">
+        {/* Header */}
+        <div>
+          <div className="flex items-center justify-between border-b-2 border-[#43281C] pb-2 mb-3">
+            <div className="flex items-center gap-2">
+              <span className="text-xl sm:text-2xl">
+                {chapterIndex === 1 ? '💬' : chapterIndex === 2 ? '📦' : chapterIndex === 3 ? '🕵️‍♂️' : chapterIndex === 4 ? '📑' : '✍️'}
+              </span>
+              <div>
+                <h2 className="font-pixel text-xs sm:text-sm text-[#D62828] leading-tight">
+                  {chapterIndex === 1 && ch1.title}
+                  {chapterIndex === 2 && ch2.title}
+                  {chapterIndex === 3 && ch3.title}
+                  {chapterIndex === 4 && ch4.title}
+                  {chapterIndex === 5 && ch5.title}
+                </h2>
+                <p className="text-[11px] font-bold text-[#5C4033]">
+                  {story.title}
+                </p>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                soundManager.playTap();
+                onClose();
+              }}
+              className="text-gray-500 hover:text-black font-bold text-lg px-2 cursor-pointer"
+            >
+              ✕
+            </button>
           </div>
-          <button
-            type="button"
-            onClick={onClose}
-            className="w-8 h-8 rounded-lg bg-white border-2 border-[#43281C] flex items-center justify-center font-bold text-sm hover:bg-red-100 cursor-pointer"
-          >
-            ✕
-          </button>
-        </div>
 
-        {/* Content Area with Internal Scroll */}
-        <div className="p-4 sm:p-5 overflow-y-auto custom-scroll flex-1 space-y-4 text-xs sm:text-sm">
           {/* ================= BAB 1 ================= */}
           {chapterIndex === 1 && (
             <div className="space-y-4">
-              <div className="bg-[#FFF8E7] p-3 rounded-xl border-2 border-[#43281C]">
-                <p className="font-semibold text-[#5C4033] mb-1">
-                  🎯 <strong>Tujuan:</strong> Mengenal rumus dasar Descriptive Text (+25 XP):
+              <div className="bg-[#FFF8E7] p-3 rounded-xl border-2 border-[#43281C] space-y-1">
+                <p className="font-semibold text-xs text-[#5C4033]">
+                  🎯 <strong>Misi:</strong> {ch1.instruction}
                 </p>
-                <div className="bg-amber-100 p-2 rounded-lg text-center font-mono font-bold text-xs text-[#D62828]">
-                  Identification: "This is a/an [benda]" + Quality: "It is [kata sifat]"
+                <p className="text-[11px] text-[#2A9D8F] font-bold">
+                  Konteks: {ch1.contextId}
+                </p>
+                <div className="p-2 bg-blue-50 border border-blue-200 rounded-lg text-[11px] text-blue-900 mt-1">
+                  💡 <strong>Rumus:</strong> Identification ("This is a/an [benda]") ➔ Description ("It is [sifat]").
                 </div>
-                <p className="text-[11px] text-[#6C584C] mt-2 italic">
-                  {ch1.contextId}
-                </p>
               </div>
 
+              {/* Slot Area */}
               <div>
-                <label className="block font-bold text-[#43281C] mb-1.5">
-                  Susun Kalimat Deskripsi (Ketuk kartu untuk memasukkan / mengeluarkan):
+                <label className="block text-[11px] font-bold text-[#43281C] mb-1">
+                  Susunan Kalimatmu (Ketuk kata di bawah untuk menyusun):
                 </label>
-                <div className="min-h-[56px] p-2.5 rounded-xl border-2 border-dashed border-[#43281C] bg-white flex flex-wrap gap-2 items-center">
+                <div className="min-h-[58px] p-2.5 bg-[#FFFDF4] rounded-xl border-2 border-dashed border-[#43281C] flex flex-wrap gap-2 items-center">
                   {placedWords.length === 0 ? (
                     <span className="text-gray-400 text-xs italic">
-                      Ketuk kartu kata di bawah untuk menyusun kalimat...
+                      Ketuk kartu kata di bawah untuk memasukkan ke sini...
                     </span>
                   ) : (
                     placedWords.map((word, idx) => (
                       <button
-                        key={`${word}-${idx}`}
+                        key={idx}
                         type="button"
                         onClick={() => handleReturnWord(idx)}
-                        className="bg-[#FFB703] text-[#43281C] font-bold px-3 py-1.5 rounded-lg border-2 border-[#43281C] shadow-xs hover:bg-amber-300 cursor-pointer"
+                        className="retro-btn bg-[#FFB703] text-[#43281C] text-xs font-bold px-3 py-1.5 rounded-lg cursor-pointer hover:bg-amber-400 animate-in zoom-in-90"
                       >
                         {word} ✕
                       </button>
@@ -364,17 +413,18 @@ export const ChapterModal: React.FC<ChapterModalProps> = ({
                 </div>
               </div>
 
+              {/* Word Bank Cards */}
               <div>
-                <label className="block text-[11px] font-bold uppercase text-[#6C584C] mb-1">
-                  Bank Kartu Kata:
+                <label className="block text-[11px] font-bold text-[#43281C] mb-1">
+                  Kartu Kata Tersedia:
                 </label>
-                <div className="flex flex-wrap gap-2">
+                <div className="p-2.5 bg-gray-50 rounded-xl border-2 border-[#43281C] flex flex-wrap gap-2">
                   {availableWords.map((item) => (
                     <button
                       key={item.id}
                       type="button"
                       onClick={() => handleWordClick(item)}
-                      className="bg-[#E9ECEF] hover:bg-white text-[#43281C] font-bold px-3 py-2 rounded-lg border-2 border-[#43281C] cursor-pointer shadow-xs active:translate-y-0.5"
+                      className="retro-btn bg-white hover:bg-amber-50 text-[#43281C] text-xs font-bold px-3 py-2 rounded-lg border-2 border-[#43281C] cursor-pointer shadow-xs min-h-[44px]"
                     >
                       {item.word}
                     </button>
@@ -382,15 +432,7 @@ export const ChapterModal: React.FC<ChapterModalProps> = ({
                 </div>
               </div>
 
-              {ch1ErrorCount >= 2 && (
-                <div className="bg-blue-50 border-2 border-blue-400 p-3 rounded-xl text-blue-900 text-xs animate-in fade-in">
-                  💡 <strong>Bantuan Guru:</strong> Urutkan kartu menjadi:
-                  <div className="font-bold mt-1 text-[#2A9D8F]">
-                    {ch1.proactiveHintWords.join(' ')}
-                  </div>
-                </div>
-              )}
-
+              {/* Feedback */}
               {ch1Feedback && (
                 <div
                   className={`p-3 rounded-xl border-2 text-xs font-semibold ${
@@ -404,6 +446,7 @@ export const ChapterModal: React.FC<ChapterModalProps> = ({
                 </div>
               )}
 
+              {/* Action */}
               <div className="pt-2 flex justify-end gap-2">
                 {!ch1Feedback?.isSuccess ? (
                   <button
@@ -427,71 +470,79 @@ export const ChapterModal: React.FC<ChapterModalProps> = ({
             </div>
           )}
 
-          {/* ================= BAB 2 (10 SOAL) ================= */}
+          {/* ================= BAB 2 ================= */}
           {chapterIndex === 2 && (
             <div className="space-y-4">
               {!quizFinished && currentQuizItem ? (
                 <>
+                  {/* Progress Header */}
                   <div className="bg-[#FFF8E7] p-3 rounded-xl border-2 border-[#43281C] flex items-center justify-between">
                     <div>
-                      <span className="font-bold text-xs uppercase text-[#E76F51]">
-                        Soal {quizIndex + 1} dari {ch2.quizItems.length}
+                      <span className="text-[10px] uppercase font-bold text-gray-500 block">
+                        Detail Benda (Kuis 10 Soal Acak)
                       </span>
-                      <h3 className="font-bold text-sm text-[#43281C]">
-                        {currentQuizItem.category} ({currentQuizItem.contextItem})
-                      </h3>
+                      <span className="font-bold text-xs text-[#D62828]">
+                        Soal {quizIndex + 1} dari {shuffledQuizItems.length}
+                      </span>
                     </div>
-                    <div className="text-right">
-                      <span className="text-[11px] font-mono font-bold bg-[#2A9D8F] text-white px-2 py-1 rounded">
-                        Benar: {quizScore}/10 (+{quizScore * 5} XP)
-                      </span>
+                    <div className="font-pixel text-xs bg-white px-2.5 py-1 rounded border border-[#43281C]">
+                      Skor: {quizScore * 5} XP
                     </div>
                   </div>
 
-                  <div className="bg-white p-3.5 rounded-xl border-2 border-[#43281C]">
-                    <p className="font-bold text-xs sm:text-sm text-gray-900 mb-1">
-                      ❓ {currentQuizItem.question}
-                    </p>
-                    <p className="text-[11px] text-gray-500 italic">
-                      ({currentQuizItem.questionId})
-                    </p>
-                    {isQuizOptionLocked && (
-                      <span className="text-[10px] text-amber-800 bg-amber-100 px-2 py-0.5 rounded font-bold border border-amber-300 inline-block mt-1">
-                        🔒 Jawaban telah dikunci dan tidak dapat diubah lagi
-                      </span>
-                    )}
+                  {/* Adjective Rule Helper */}
+                  <div className="p-2 bg-blue-50 border border-blue-200 rounded-lg text-[10px] text-blue-900 font-semibold flex items-center justify-between">
+                    <span>💡 Aturan: <strong>Size (Ukuran)</strong> ➔ <strong>Color (Warna)</strong> ➔ <strong>Material (Bahan)</strong> ➔ Noun!</span>
                   </div>
 
-                  {/* Options */}
+                  {/* Question Box */}
+                  <div className="bg-[#FFFDF4] p-3.5 rounded-xl border-2 border-[#43281C]">
+                    <div className="text-[11px] text-gray-500 font-semibold mb-1">
+                      Konteks: {currentQuizItem.contextItem} ({currentQuizItem.category})
+                    </div>
+                    <div className="font-bold text-xs sm:text-sm text-[#1F2937] leading-relaxed">
+                      {currentQuizItem.question}
+                    </div>
+                    <div className="text-[11px] text-gray-500 italic mt-1">
+                      {currentQuizItem.questionId}
+                    </div>
+                  </div>
+
+                  {/* Randomized Options */}
                   <div className="space-y-2">
-                    {currentQuizItem.options.map((opt, idx) => {
+                    <div className="text-[11px] font-bold text-[#43281C]">
+                      Pilihan Jawaban (Diacak):
+                    </div>
+                    {currentQuizItem.options.map((opt, i) => {
                       const isSelected = selectedQuizOption === opt;
-                      const letter = String.fromCharCode(65 + idx);
+                      const isCorrectAnswer = opt === currentQuizItem.correctAnswer;
+                      let btnStyle = 'bg-white border-[#43281C] text-[#43281C] hover:bg-amber-50';
+
+                      if (isQuizOptionLocked) {
+                        if (isCorrectAnswer) {
+                          btnStyle = 'bg-emerald-200 border-emerald-600 text-emerald-900 font-bold';
+                        } else if (isSelected && !isCorrectAnswer) {
+                          btnStyle = 'bg-red-200 border-red-600 text-red-900';
+                        } else {
+                          btnStyle = 'bg-gray-100 border-gray-300 text-gray-400 opacity-60';
+                        }
+                      } else if (isSelected) {
+                        btnStyle = 'bg-[#FFB703] border-[#43281C] text-[#43281C] font-bold';
+                      }
 
                       return (
                         <button
-                          key={opt}
+                          key={i}
                           type="button"
-                          disabled={isQuizOptionLocked}
                           onClick={() => handleSelectQuizOption(opt)}
-                          className={`w-full text-left p-3 rounded-xl border-2 transition-all flex items-center gap-2.5 min-h-[48px] ${
-                            isQuizOptionLocked ? 'cursor-not-allowed opacity-90' : 'cursor-pointer'
-                          } ${
-                            isSelected
-                              ? quizFeedback?.isSuccess
-                                ? 'bg-emerald-100 border-emerald-600 font-bold'
-                                : quizFeedback && !quizFeedback.isSuccess
-                                ? 'bg-red-100 border-red-600 font-bold'
-                                : 'bg-[#FFE8D6] border-[#D62828] shadow-sm font-bold'
-                              : 'bg-white border-[#43281C] hover:bg-amber-50 font-medium'
+                          disabled={isQuizOptionLocked}
+                          className={`w-full text-left p-3 rounded-xl border-2 text-xs sm:text-sm font-medium transition-all cursor-pointer min-h-[48px] flex items-center justify-between ${btnStyle} ${
+                            isQuizOptionLocked ? 'cursor-not-allowed' : ''
                           }`}
                         >
-                          <span className="font-pixel text-[11px] bg-[#FFB703] text-[#43281C] w-6 h-6 flex items-center justify-center rounded border border-[#43281C] shrink-0">
-                            {letter}
-                          </span>
-                          <span className="text-xs sm:text-sm text-gray-800">
-                            {opt}
-                          </span>
+                          <span>{opt}</span>
+                          {isSelected && !isQuizOptionLocked && <span>👉</span>}
+                          {isQuizOptionLocked && isCorrectAnswer && <span>✅</span>}
                         </button>
                       );
                     })}
@@ -528,7 +579,7 @@ export const ChapterModal: React.FC<ChapterModalProps> = ({
                         onClick={handleNextQuizQuestion}
                         className="retro-btn bg-[#FFB703] text-[#43281C] font-bold px-6 py-2.5 cursor-pointer shadow-md"
                       >
-                        {quizIndex + 1 < ch2.quizItems.length ? 'Soal Berikutnya ➔' : 'Lihat Hasil 10 Soal ➔'}
+                        {quizIndex + 1 < shuffledQuizItems.length ? 'Soal Berikutnya ➔' : 'Lihat Hasil 10 Soal ➔'}
                       </button>
                     )}
                   </div>
@@ -566,111 +617,158 @@ export const ChapterModal: React.FC<ChapterModalProps> = ({
             </div>
           )}
 
-          {/* ================= BAB 3 ================= */}
+          {/* ================= BAB 3 (5 DISTINCT CASES) ================= */}
           {chapterIndex === 3 && (
             <div className="space-y-4">
-              <div className="bg-[#FFF8E7] p-3 rounded-xl border-2 border-[#43281C] space-y-2">
-                <div className="flex items-center gap-2 text-xs font-bold text-[#D62828]">
-                  <span>🔍</span> <span>KASUS PENYELIDIKAN SAKSI (+30 XP):</span>
-                </div>
-                <div className="p-2.5 bg-white rounded-lg border-2 border-[#43281C] text-xs">
-                  <p className="font-semibold text-gray-800 italic mb-1">
-                    "{ch3.witnessStatementEn}"
-                  </p>
-                  <p className="text-[11px] text-gray-500">
-                    Artinya: {ch3.witnessStatementId}
-                  </p>
-                </div>
-                <p className="font-bold text-xs text-[#5C4033]">
-                  {ch3.question}
-                </p>
-                {isSuspectLocked && (
-                  <span className="text-[10px] text-amber-800 bg-amber-100 px-2 py-0.5 rounded font-bold border border-amber-300 inline-block">
-                    🔒 Pilihan telah dikunci dan tidak dapat diubah
-                  </span>
-                )}
-              </div>
+              {!allCasesFinished && currentCase ? (
+                <>
+                  {/* Case Progress Header */}
+                  <div className="bg-[#FFF8E7] p-3 rounded-xl border-2 border-[#43281C] flex items-center justify-between">
+                    <div>
+                      <span className="text-[10px] uppercase font-bold text-gray-500 block">
+                        Kasus Penyelidikan Saksi (Bab 3)
+                      </span>
+                      <span className="font-bold text-xs text-[#D62828]">
+                        Kasus {caseIndex + 1} dari {ch3.cases.length}: {currentCase.title}
+                      </span>
+                    </div>
+                    <div className="font-pixel text-xs bg-white px-2.5 py-1 rounded border border-[#43281C]">
+                      {caseScore * 10} / 50 XP
+                    </div>
+                  </div>
 
-              {/* Suspect / Item Options */}
-              <div className="space-y-2.5">
-                {ch3.suspects.map((suspect) => {
-                  const isSelected = selectedSuspectId === suspect.id;
-                  return (
-                    <button
-                      key={suspect.id}
-                      type="button"
-                      disabled={isSuspectLocked}
-                      onClick={() => {
-                        if (isSuspectLocked) return;
-                        soundManager.playTap();
-                        setSelectedSuspectId(suspect.id);
-                        setCh3Feedback(null);
-                      }}
-                      className={`w-full text-left p-3 rounded-xl border-2 transition-all flex flex-col gap-1 ${
-                        isSuspectLocked ? 'cursor-not-allowed opacity-90' : 'cursor-pointer'
-                      } ${
-                        isSelected
-                          ? ch3Feedback?.isSuccess
-                            ? 'bg-emerald-100 border-emerald-600 shadow-sm'
-                            : ch3Feedback && !ch3Feedback.isSuccess
-                            ? 'bg-red-100 border-red-600 shadow-sm'
-                            : 'bg-[#FFE8D6] border-[#D62828] shadow-sm'
-                          : 'bg-white border-[#43281C] hover:bg-amber-50'
+                  {/* Case Context & Witness Statement */}
+                  <div className="bg-[#FFFDF4] p-3 rounded-xl border-2 border-[#43281C] space-y-2">
+                    <div className="text-[11px] text-[#5C4033] font-semibold">
+                      📋 <strong>Laporan Kasus:</strong> {currentCase.caseDescriptionId}
+                    </div>
+                    <div className="p-2.5 bg-white rounded-lg border-2 border-[#43281C] text-xs space-y-1">
+                      <div className="text-[10px] text-gray-500 uppercase font-bold">
+                        Keterangan Saksi (Witness Statement):
+                      </div>
+                      <p className="font-semibold text-gray-800 italic">
+                        "{currentCase.witnessStatementEn}"
+                      </p>
+                      <p className="text-[11px] text-gray-600 border-t pt-1 border-gray-200">
+                        🇮🇩 Artinya: {currentCase.witnessStatementId}
+                      </p>
+                    </div>
+                    <p className="font-bold text-xs text-[#D62828]">
+                      ❓ {currentCase.question}
+                    </p>
+                    {isSuspectLocked && (
+                      <span className="text-[10px] text-amber-800 bg-amber-100 px-2 py-0.5 rounded font-bold border border-amber-300 inline-block">
+                        🔒 Pilihan telah dikunci dan tidak dapat diubah
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Suspect / Item Options */}
+                  <div className="space-y-2">
+                    {currentCase.suspects.map((suspect) => {
+                      const isSelected = selectedSuspectId === suspect.id;
+                      let cardStyle = 'bg-white border-[#43281C] hover:bg-amber-50';
+
+                      if (isSuspectLocked) {
+                        if (suspect.isCorrect) {
+                          cardStyle = 'bg-emerald-100 border-emerald-600 shadow-sm';
+                        } else if (isSelected && !suspect.isCorrect) {
+                          cardStyle = 'bg-red-100 border-red-600 shadow-sm';
+                        } else {
+                          cardStyle = 'bg-gray-100 border-gray-300 opacity-60';
+                        }
+                      } else if (isSelected) {
+                        cardStyle = 'bg-[#FFE8D6] border-[#D62828] shadow-sm font-semibold';
+                      }
+
+                      return (
+                        <button
+                          key={suspect.id}
+                          type="button"
+                          disabled={isSuspectLocked}
+                          onClick={() => handleSelectSuspect(suspect.id)}
+                          className={`w-full text-left p-3 rounded-xl border-2 transition-all flex flex-col gap-1 min-h-[48px] ${
+                            isSuspectLocked ? 'cursor-not-allowed' : 'cursor-pointer'
+                          } ${cardStyle}`}
+                        >
+                          <div className="flex items-center justify-between">
+                            <span className="font-bold text-xs text-[#43281C]">
+                              {suspect.title}
+                            </span>
+                            <span className="text-[10px] bg-gray-200 px-2 py-0.5 rounded font-mono text-gray-700">
+                              {suspect.visualTag}
+                            </span>
+                          </div>
+                          <p className="text-xs text-gray-600 font-medium">
+                            {suspect.description}
+                          </p>
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {/* Feedback */}
+                  {ch3Feedback && (
+                    <div
+                      className={`p-3 rounded-xl border-2 text-xs font-semibold ${
+                        ch3Feedback.isSuccess
+                          ? 'bg-emerald-100 border-emerald-500 text-emerald-900'
+                          : 'bg-red-100 border-red-500 text-red-900 animate-pulse'
                       }`}
                     >
-                      <div className="flex items-center justify-between">
-                        <span className="font-bold text-xs text-[#43281C]">
-                          {suspect.title}
-                        </span>
-                        <span className="text-[10px] bg-gray-200 px-2 py-0.5 rounded font-mono text-gray-700">
-                          {suspect.visualTag}
-                        </span>
-                      </div>
-                      <p className="text-xs text-gray-600 font-medium">
-                        {suspect.description}
-                      </p>
-                    </button>
-                  );
-                })}
-              </div>
+                      {ch3Feedback.isSuccess ? '✅ ' : '❌ '}
+                      {ch3Feedback.text}
+                    </div>
+                  )}
 
-              {ch3Feedback && (
-                <div
-                  className={`p-3 rounded-xl border-2 text-xs font-semibold ${
-                    ch3Feedback.isSuccess
-                      ? 'bg-emerald-100 border-emerald-500 text-emerald-900'
-                      : 'bg-red-100 border-red-500 text-red-900 animate-pulse'
-                  }`}
-                >
-                  {ch3Feedback.isSuccess ? '✅ ' : '❌ '}
-                  {ch3Feedback.text}
+                  {/* Actions */}
+                  <div className="pt-2 flex justify-end gap-2">
+                    {!isSuspectLocked ? (
+                      <button
+                        type="button"
+                        onClick={handleCheckCaseAnswer}
+                        disabled={!selectedSuspectId}
+                        className="retro-btn bg-[#2A9D8F] text-white hover:bg-[#21867A] px-5 py-2.5 font-bold cursor-pointer disabled:opacity-50"
+                      >
+                        Kunci Pilihan Kasus Ini
+                      </button>
+                    ) : ch3Feedback?.isSuccess ? (
+                      <button
+                        type="button"
+                        onClick={handleNextCase}
+                        className="retro-btn bg-[#FFB703] text-[#43281C] font-bold px-6 py-2.5 cursor-pointer shadow-md"
+                      >
+                        {caseIndex + 1 < ch3.cases.length ? 'Kasus Selanjutnya ➔' : 'Selesaikan Bab 3 ➔'}
+                      </button>
+                    ) : (
+                      <div className="text-center font-bold text-red-600 text-xs py-2">
+                        Mengembalikan pemain ke halaman depan...
+                      </div>
+                    )}
+                  </div>
+                </>
+              ) : (
+                /* All 5 Cases Completed */
+                <div className="bg-[#FFF8E7] p-5 rounded-xl border-2 border-[#43281C] text-center space-y-3">
+                  <div className="text-3xl">🎉</div>
+                  <h3 className="font-pixel text-sm text-[#D62828]">
+                    5 KASUS PENYELIDIKAN TERPECAHKAN!
+                  </h3>
+                  <p className="text-xs text-[#5C4033] font-semibold">
+                    Hebat! Kamu berhasil memecahkan seluruh 5 kasus petunjuk deskriptif tanpa salah tuduh!
+                  </p>
+                  <div className="p-3 bg-emerald-100 border-2 border-emerald-500 rounded-xl text-xs font-bold text-emerald-900">
+                    Poin Diperoleh: +50 XP (5 Kasus Sempurna)
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => onCompleteChapter(3, 50)}
+                    className="retro-btn bg-[#FFB703] text-[#43281C] font-bold px-6 py-3 cursor-pointer shadow-md text-sm"
+                  >
+                    Lanjut ke Bab 4 (+50 XP) ➔
+                  </button>
                 </div>
               )}
-
-              <div className="pt-2 flex justify-end gap-2">
-                {!isSuspectLocked ? (
-                  <button
-                    type="button"
-                    onClick={handleCheckCh3}
-                    disabled={!selectedSuspectId}
-                    className="retro-btn bg-[#2A9D8F] text-white hover:bg-[#21867A] px-5 py-2.5 font-bold cursor-pointer disabled:opacity-50"
-                  >
-                    Kunci Pilihan Ini
-                  </button>
-                ) : ch3Feedback?.isSuccess ? (
-                  <button
-                    type="button"
-                    onClick={() => onCompleteChapter(3, 30)}
-                    className="retro-btn bg-[#FFB703] text-[#43281C] font-bold px-6 py-2.5 cursor-pointer shadow-md"
-                  >
-                    Lanjut ke Bab 4 (+30 XP) ➔
-                  </button>
-                ) : (
-                  <div className="text-center font-bold text-red-600 text-xs py-2">
-                    Mengembalikan pemain ke halaman depan...
-                  </div>
-                )}
-              </div>
             </div>
           )}
 

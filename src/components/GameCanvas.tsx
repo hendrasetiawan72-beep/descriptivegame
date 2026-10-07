@@ -164,10 +164,10 @@ export const GameCanvas: React.FC<GameCanvasProps> = ({
     const worldX = clientX + cameraRef.current.x;
     const worldY = clientY + cameraRef.current.y;
 
-    // Check if tapped on or near any NPC (with enlarged 75px hitbox)
+    // Check if tapped on or near any NPC (with enlarged 95px hitbox for larger chibi sprites)
     const tappedNpc = allNpcs.find(npc => {
       const dist = Math.hypot(npc.x - worldX, npc.y - worldY);
-      return dist <= 75;
+      return dist <= 95;
     });
 
     if (tappedNpc) {
@@ -285,32 +285,33 @@ export const GameCanvas: React.FC<GameCanvasProps> = ({
       drawPixelRect(ctx, 360, 1320, 600, 90, '#E9ECEF');
       drawPixelRect(ctx, 1000, 940, 100, 420, '#E9ECEF');
       drawPixelRect(ctx, 1000, 1320, 880, 90, '#E9ECEF');
-      // Pathways to Mushola and Kantin
-      drawPixelRect(ctx, 880, 1180, 120, 50, '#E9ECEF');
-      drawPixelRect(ctx, 1220, 1180, 180, 65, '#E9ECEF');
+      // Dedicated pathway to Mushola (North)
+      drawPixelRect(ctx, 810, 360, 100, 120, '#E9ECEF');
+      // Dedicated pathway to Kantin (South)
+      drawPixelRect(ctx, 1140, 940, 100, 200, '#E9ECEF');
+      drawPixelRect(ctx, 1060, 1285, 260, 45, '#E9ECEF');
 
-      // 3. School Buildings (Kantin & Mushola clearly separated and non-overlapping!)
+      // 3. School Buildings (Kantin and Mushola on completely opposite sides!)
       drawBuilding(ctx, 220, 440, 160, 130, 'GERBANG MUHIBA', 'gate', time);
       drawBuilding(ctx, 1420, 330, 460, 170, 'KOPERASI & LAB AKL', 'koperasi', time);
       drawBuilding(ctx, 340, 1150, 480, 180, 'BENGKEL OTOMOTIF', 'bengkel', time);
       drawBuilding(ctx, 1420, 1150, 460, 180, 'LAB JARINGAN TJKT', 'tjkt', time);
 
-      // Dedicated MUSHOLA AS-SALAM (South-West corner of courtyard, quiet zone)
-      drawBuilding(ctx, 880, 1040, 200, 140, 'MUSHOLA AS-SALAM', 'mushola', time);
+      // Dedicated MUSHOLA AS-SALAM in the NORTH (Serene spiritual zone)
+      drawBuilding(ctx, 740, 220, 240, 140, 'MUSHOLA AS-SALAM', 'mushola', time);
 
-      // Dedicated KANTIN SEKOLAH & GAZEBO KOPI SURJO (South-East corridor, food & coffee zone)
-      drawBuilding(ctx, 1220, 1040, 250, 140, 'KANTIN SEKOLAH (KOPI SURJO)', 'canteen', time);
+      // Dedicated KANTIN SEKOLAH in the SOUTH (Food & Kopi Surjo zone)
+      drawBuilding(ctx, 1060, 1140, 260, 145, 'KANTIN SEKOLAH (KOPI SURJO)', 'canteen', time);
 
       // 4. Courtyard Indonesian Flagpole
       drawFlag(ctx, 720, 710, time);
 
       // 5. Environmental Ornaments: Swaying Trees, Benches, Flower Pots
       const treePositions = [
-        [180, 360], [420, 360], [680, 360], [920, 360],
-        [1160, 360], [1360, 280], [1950, 360], [2050, 520],
-        [180, 760], [180, 980], [180, 1200], [180, 1480],
-        [820, 1180], [1160, 1180], [2050, 1180], [2050, 1440],
-        [720, 1600], [1200, 1600], [1600, 1600]
+        [320, 240], [540, 240], [1060, 240], [1280, 240],
+        [180, 360], [180, 680], [180, 960], [180, 1240], [180, 1500],
+        [1950, 320], [2050, 520], [2050, 840], [2050, 1140], [2050, 1440],
+        [720, 1600], [1600, 1600]
       ];
       treePositions.forEach(([tx, ty]) => {
         drawTree(ctx, tx, ty, time);
@@ -319,8 +320,11 @@ export const GameCanvas: React.FC<GameCanvasProps> = ({
       drawBench(ctx, 480, 910);
       drawBench(ctx, 960, 910);
       drawBench(ctx, 1300, 490);
-      drawBench(ctx, 1120, 1330);
+      drawBench(ctx, 1080, 1290);
+      drawBench(ctx, 1250, 1290);
 
+      drawFlowerPot(ctx, 700, 360);
+      drawFlowerPot(ctx, 1020, 360);
       drawFlowerPot(ctx, 400, 500);
       drawFlowerPot(ctx, 1040, 500);
       drawFlowerPot(ctx, 1440, 500);

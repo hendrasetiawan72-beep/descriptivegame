@@ -198,7 +198,7 @@ export function drawBuilding(
   ctx.restore();
 }
 
-// Draw Chibi Characters (Enlarged by ~1.45x scale for great visibility!)
+// Draw Chibi Characters (Enlarged by 1.85x scale for super clear and prominent chibi visibility!)
 export function drawCharacter(
   ctx: CanvasRenderingContext2D,
   x: number,
@@ -212,10 +212,10 @@ export function drawCharacter(
 ) {
   ctx.save();
   ctx.translate(Math.floor(x), Math.floor(y));
-  ctx.scale(1.45, 1.45); // Scale character up by 1.45x
+  ctx.scale(1.85, 1.85); // Scale character and NPCs up to 1.85x
 
   // Shadow
-  drawPixelRect(ctx, -12, 14, 24, 6, 'rgba(0,0,0,0.25)');
+  drawPixelRect(ctx, -14, 15, 28, 7, 'rgba(0,0,0,0.28)');
 
   // Dash smoke trail
   if (isDashing) {
@@ -364,7 +364,7 @@ export function drawQuestMarker(
   time: number
 ) {
   const bob = Math.sin(time * 0.006) * 6;
-  const my = y - 56 + bob;
+  const my = y - 68 + bob;
 
   ctx.save();
   ctx.fillStyle = '#FFA500';

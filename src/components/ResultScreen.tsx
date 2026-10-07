@@ -19,7 +19,7 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({
   onPlayAgain,
   onChangeMajor
 }) => {
-  const totalXp = score.vocabXp + score.batangTourXp + score.ch1 + score.ch2 + score.ch3 + score.ch4 + score.ch5;
+  const totalXp = (score.vocabXp || 0) + (score.grammarXp || 0) + (score.batangTourXp || 0) + (score.ch1 || 0) + (score.ch2 || 0) + (score.ch3 || 0) + (score.ch4 || 0) + (score.ch5 || 0);
 
   // Rating in flame emojis: strictly NO STARS!
   const getFlameRating = (xp: number): string => {
@@ -140,6 +140,10 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({
                 <div className="text-[10px] text-gray-500 font-bold">Misi Kosakata</div>
                 <div className="font-bold text-[#2A9D8F]">+{score.vocabXp} XP</div>
               </div>
+              <div className="p-1.5 bg-blue-50 rounded border border-blue-300">
+                <div className="text-[10px] text-gray-500 font-bold">Latihan Grammar</div>
+                <div className="font-bold text-blue-700">+{score.grammarXp || 0} XP</div>
+              </div>
               <div className="p-1.5 bg-emerald-50 rounded border border-emerald-300">
                 <div className="text-[10px] text-gray-500 font-bold">Jelajah Batang</div>
                 <div className="font-bold text-[#2A9D8F]">+{score.batangTourXp} XP</div>
@@ -149,19 +153,19 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({
                 <div className="font-bold text-[#D62828]">+{score.ch1} XP</div>
               </div>
               <div className="p-1.5 bg-amber-50 rounded border border-amber-200">
-                <div className="text-[10px] text-gray-500 font-bold">Bab 2 (10 Soal)</div>
+                <div className="text-[10px] text-gray-500 font-bold">Bab 2 (10 Soal Acak)</div>
                 <div className="font-bold text-[#D62828]">+{score.ch2} XP</div>
               </div>
               <div className="p-1.5 bg-amber-50 rounded border border-amber-200">
-                <div className="text-[10px] text-gray-500 font-bold">Bab 3</div>
+                <div className="text-[10px] text-gray-500 font-bold">Bab 3 (5 Kasus)</div>
                 <div className="font-bold text-[#D62828]">+{score.ch3} XP</div>
               </div>
               <div className="p-1.5 bg-amber-50 rounded border border-amber-200">
                 <div className="text-[10px] text-gray-500 font-bold">Bab 4</div>
                 <div className="font-bold text-[#D62828]">+{score.ch4} XP</div>
               </div>
-              <div className="p-1.5 bg-amber-50 rounded border border-amber-200 col-span-2">
-                <div className="text-[10px] text-gray-500 font-bold">Bab 5 (Proyek Akhir)</div>
+              <div className="p-1.5 bg-amber-50 rounded border border-amber-200">
+                <div className="text-[10px] text-gray-500 font-bold">Bab 5 (Proyek)</div>
                 <div className="font-bold text-[#D62828]">+{score.ch5} XP</div>
               </div>
             </div>
@@ -203,7 +207,7 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({
             <input type="hidden" name="jurusan" value={story.title} />
             <input type="hidden" name="total_xp" value={`${totalXp} XP`} />
             <input type="hidden" name="rating_api" value={getFlameRating(totalXp)} />
-            <input type="hidden" name="rincian_xp" value={`Kosakata:${score.vocabXp}XP, BatangTour:${score.batangTourXp}XP, Bab1:${score.ch1}XP, Bab2:${score.ch2}XP, Bab3:${score.ch3}XP, Bab4:${score.ch4}XP, Bab5:${score.ch5}XP`} />
+            <input type="hidden" name="rincian_xp" value={`Kosakata:${score.vocabXp}XP, Grammar:${score.grammarXp || 0}XP, BatangTour:${score.batangTourXp}XP, Bab1:${score.ch1}XP, Bab2:${score.ch2}XP, Bab3:${score.ch3}XP, Bab4:${score.ch4}XP, Bab5:${score.ch5}XP`} />
             <input type="hidden" name="teks_bab_5" value={studentWritingText} />
             <input type="checkbox" name="botcheck" className="hidden" style={{ display: 'none' }} />
 
