@@ -1,0 +1,6 @@
+{
+  "name": "MUHIBA ENGLISH QUEST: The Lost Description",
+  "description": "Game web 2D petualangan belajar Descriptive Text Bahasa Inggris Fase E SMK Muhammadiyah Bawang",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

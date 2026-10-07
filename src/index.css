@@ -1,0 +1,79 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-pixel: 'Press Start 2P', monospace;
+    --font-fredoka: 'Fredoka', cursive, sans-serif;
+  }
+
+  html, body, #root {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    height: 100dvh;
+    overflow: hidden;
+    background-color: #2b1f3d;
+    font-family: var(--font-fredoka);
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+  }
+}
+
+.font-pixel {
+  font-family: 'Press Start 2P', monospace;
+}
+
+.font-fredoka {
+  font-family: 'Fredoka', cursive, sans-serif;
+}
+
+/* Retro vintage rounded borders */
+.retro-box {
+  background: #FFFDF4;
+  border: 4px solid #43281C;
+  border-radius: 18px;
+  box-shadow: 0 6px 0 #43281C, 0 10px 18px rgba(0,0,0,0.25);
+}
+
+.retro-box-sm {
+  background: #FFFDF4;
+  border: 3px solid #43281C;
+  border-radius: 12px;
+  box-shadow: 0 4px 0 #43281C;
+}
+
+.retro-btn {
+  background: #FFA500;
+  border: 3px solid #43281C;
+  border-radius: 14px;
+  box-shadow: 0 4px 0 #43281C;
+  transition: all 0.1s ease;
+  min-height: 48px;
+  min-width: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.retro-btn:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #43281C;
+}
+
+/* Custom scrollbar for long dialogue */
+.custom-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+.custom-scroll::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+}
+.custom-scroll::-webkit-scrollbar-thumb {
+  background: #E07A5F;
+  border-radius: 4px;
+}
+
